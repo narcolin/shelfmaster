@@ -123,6 +123,17 @@ label {
   margin: 0;
 }
 
+.instructions {
+  outline: none;
+  border: none;
+  color: red;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
 /*---------------------------------------------*/
 button {
 	outline: none !important;
@@ -325,7 +336,7 @@ input.input100 {
 
 .password-toggle {
   position: absolute;
-  top: 0;
+  top: 5;
   right: 5px;
   height: 100%;
   display: flex;

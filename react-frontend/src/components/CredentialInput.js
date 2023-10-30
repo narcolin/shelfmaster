@@ -1,11 +1,14 @@
 import React from 'react';
 
-const CredentialInput = ({ type, name, label, styles }) => {
+const CredentialInput = (props) => {
   return (
-    <div className={`wrap-input100 ${styles}`}>
-      <input className="input100" type={type} name={name} />
+    <div className={`wrap-input100 ${props.styles}`}>
+      <input className="input100"
+        type={props.type}
+        name={props.name}
+        ref={props.ref} />
       <span className="focus-input100" />
-      <span className="label-input100">{label}</span>
+      <span className="label-input100">{props.label}</span>
     </div>
   );
 };

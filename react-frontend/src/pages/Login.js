@@ -79,7 +79,7 @@ function Login() {
               <div className="password-toggle">
                   <i
                     id="showPasswordIcon"
-                    className="bi bi-eye"
+                    className={hidePwd ? "bi bi-eye" : "bi bi-eye-slash"}
                     onClick={() => setHidePwd(!hidePwd)}
                   />
                 </div>

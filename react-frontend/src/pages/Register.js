@@ -84,6 +84,13 @@ const Register = () => {
       <div className="container-login100">
         <div className="wrap-login100">
           <form className="login100-form-register" onSubmit={handleSubmit}>
+
+            {/* failed reguster */}
+            <div className={`alert alert-danger d-flex align-items-center ${errMsg ? 'visible-true' : 'visible-false'}`}>
+              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"/>
+              <div>Invalid email and password!</div>
+            </div>
+
             <span className="login100-form-title p-b-43">Welcome!</span>
             <div className="wrap-input100 mb-3 email-container">
               <input className={`input100 ${email ? "has-val" : ""}`}
@@ -118,7 +125,7 @@ const Register = () => {
             </div>
             <p id="pwdnote" className={(pwd && !validPwd) || (pwdFocus && !validPwd) ? "instructions" : "offscreen"}>
               At least 8 characters.<br />
-              Must include a uppercase letter, a number and a special character.<br />
+              Must include a uppercase letter, a number, and a special character.<br />
               Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span> <span aria-label="caret">^</span> <span aria-label="ampersand">&</span> <span aria-label="asterisk">*</span> <span aria-label="question mark">?</span> <span aria-label="opening parenthesis">(</span> <span aria-label="closing parenthesis">)</span> <span aria-label="plus sign">+</span> <span aria-label="hyphen">-</span>
             </p>
 
@@ -146,6 +153,10 @@ const Register = () => {
               <p className="inline-text">Already registered? </p>
               <Link to="/login" className="txt1 inline-link">Login here!</Link>
             </div>
+
+            <LoginDivider/>
+            <AlternativeLogins/>
+
           </form>
           <div className="login100-bg" />
         </div>

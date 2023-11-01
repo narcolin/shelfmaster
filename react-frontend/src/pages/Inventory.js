@@ -1,18 +1,12 @@
 import React from "react";
 import "./css/inventory.css";
 import Table from "../Table";
-
+import Menu from '../components/Menu.js'
 
 function Inventory() {  
   return (
     <div className="container">
-        <div class="topnav">
-        <a href="">Home</a>
-        <a class="active" href="#inventory">Inventory</a>
-        <a href="">History</a>
-        <a href="">Recipes</a>
-        <a href=""><span>&#9881;</span></a>
-      </div>
+        <Menu active="Inventory"/>
       <div className="container">
         <Table />
       </div>

@@ -5,7 +5,7 @@ import Menu from '../components/Menu.js'
 function Home() {  
   return (
     <div className="container">
-      <Menu />
+      <Menu active = "Home"/>
       <h1>Welcome to <br /><strong>ShelfMaster</strong></h1>
       <p>Use ShelfMaster to keep track of what food items you have. <br />
             Visit the Inventory tab to view what you have, or add or delete items.<br />

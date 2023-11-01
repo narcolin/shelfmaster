@@ -1,14 +1,30 @@
 import mongoose from "mongoose";
 import userModel from "./user.js";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 // uncomment the following line to view mongoose debug messages
 mongoose.set("debug", true);
-
+console.log(">>mongo cluster: " + process.env.MONGO_CLUSTER);
 mongoose
-  .connect("mongodb://127.0.0.1:27017/users", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    "mongodb+srv://" +
+      process.env.MONGO_USER +
+      ":" +
+      process.env.MONGO_PWD +
+      "@" +
+      process.env.MONGO_CLUSTER +
+      "/" +
+      process.env.MONGO_DB +
+      "?retryWrites=true&w=majority",
+    // "mongodb://localhost:27017/users",
+    {
+      useNewUrlParser: true, //useFindAndModify: false,
+      useUnifiedTopology: true,
+    }
+  )
   .catch((error) => console.log(error));
 
 async function getUsers(name, job) {
@@ -66,6 +82,11 @@ async function findUserByNameAndJob(name, job) {
   return await userModel.find({ name: name, job: job });
 }
 
+// async function disconnectDB() {
+//   await mongoose.connection.close();
+//   await mongoose.disconnect();
+// }
+
 export default {
   addUser,
   getUsers,
@@ -74,3 +95,5 @@ export default {
   findUserByJob,
   deleteUserById,
 };
+
+// exports.disconnectDB = disconnectDB;

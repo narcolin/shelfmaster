@@ -1,69 +1,95 @@
 import { Link } from "react-router-dom";
+import { useRef, useState, useEffect} from 'react';
 import "./css/login.css";
+import CredentialInput from '../components/CredentialInput';
+import LoginDivider from '../components/LoginDivider';
+import SubmitCredentials from '../components/SubmitCredentials';
+import AlternativeLogins from '../components/AlternativeLogins';
 
 function Login() {  
-  // get input elements (e.g. email, password)
-  const inputElements = document.querySelectorAll(".input100");
-  // listener for input elements
-  inputElements.forEach((inputElement) => {
-    inputElement.addEventListener("input", () => {
-      handleInputChange(inputElement);
-    });
-  });
-  // adds/removes class if has value
-  function handleInputChange(inputElement) {
-    if (inputElement.value.trim() !== "") {
-      inputElement.classList.add("has-val");
-      console.log("Value added");
-    } else {
-      inputElement.classList.remove("has-val");
-      console.log("Value removed");
-    }
+  const emailRef = useRef();
+
+  const [email, setEmail] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [hidePwd, setHidePwd] = useState(true);
+  const [errMsg, setErrMsg] = useState('');
+  const [success, setSuccess] = useState(false);
+
+  // set focus on email input
+  useEffect(() => {
+      emailRef.current.focus();
+  }, [])
+
+  // on edit of user/pwd, clears error message
+  useEffect(() => {
+      setErrMsg('');
+  }, [email, pwd])
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(email, pwd);
+    setSuccess(true);
   }
-  
-  // listener for hiding/showing password
-  document.addEventListener("DOMContentLoaded", function () {
-    const passwordField = document.getElementById("floatingPassword");
-    const showPasswordIcon = document.getElementById("showPasswordIcon");
-  
-    showPasswordIcon.addEventListener("click", function () {
-      if (passwordField.type === "password") {
-        passwordField.type = "text";
-      } else {
-        passwordField.type = "password";
-      }
-    });
-  });
 
   return (
     <div className="limiter">
       <div className="container-login100">
         <div className="wrap-login100">
-          <form className="login100-form">
+          <form className="login100-form" onSubmit={handleSubmit}>
+            
+            {/* failed login */}
+            <div className={`alert alert-danger d-flex align-items-center ${errMsg ? 'visible-true' : 'visible-false'}`}>
+              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"/>
+              <div>Invalid email and password!</div>
+            </div>
+
+            {/* header */}
             <span className="login100-form-title p-b-43">
               Login to continue
             </span>
-
-            <div className="wrap-input100 mb-3">
-              <input className="input100" type="text" name="email"/>
+  
+            {/* email */}
+            <div className="wrap-input100 mb-3 email-container">
+              <input
+                className={`input100 ${email ? 'has-val' : ''}`}
+                type="email"
+                id="email"
+                ref={emailRef}
+                autoComplete="off"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+                required
+              />
               <span className="focus-input100"></span>
-              <span className="label-input100">Email</span>
+              <span htmlFor="email" className="label-input100">Email</span>
             </div>
-            
-            
+
+            {/* password */}
             <div className="wrap-input100 password-container">
-              <input className="input100" type="password" name="pass" />
+              <input
+                className={`input100 ${pwd ? 'has-val' : ''}`}
+                type={hidePwd ? "password" : "text"}
+                id="password"
+                onChange={(e) => setPwd(e.target.value)}
+                value={pwd}
+                required
+              />
               <span className="focus-input100"></span>
-              <span className="label-input100">Password</span>
+              <span htmlFor="password" className="label-input100">Password</span>
               <div className="password-toggle">
-                  <i id="showPasswordIcon" className="bi bi-eye"></i>
+                  <i
+                    id="showPasswordIcon"
+                    className="bi bi-eye"
+                    onClick={() => setHidePwd(!hidePwd)}
+                  />
                 </div>
             </div>
             
+            {/* remember me and forgot password */}
             <div className="d-flex justify-content-between align-items-center mb-2">
               <div className="contact100-form-checkbox">
                 <input className="input-checkbox100" id="ckb1" type="checkbox" name="remember-me" />
-                <label className="label-checkbox100" for="ckb1">
+                <label className="label-checkbox100" htmlFor="ckb1">
                   Remember me
                 </label>
               </div>
@@ -75,32 +101,15 @@ function Login() {
               </div>
             </div>
 
-            <div className="container-login100-form-btn">
-              <button className="login100-form-btn">
-                Login
-              </button>
-            </div>
+            <SubmitCredentials label="Login" />
 
             <div className="inline">
               <p className="inline-text">New user? </p>
               <Link to="/register" className="txt1 inline-link">Register here!</Link>
             </div>
             
-            <div className="divider d-flex align-items-center mt-4 mb-3">
-              <p className="text-center fw-bold mx-4 mb-0 text-muted">OR LOGIN WITH</p>
-            </div>
-            
-            <div className="d-flex flex-row align-items-center justify-content-center">
-              <button type="button" className="btn btn-floating google mx-1">
-                <i className="bi bi-google"></i>
-              </button>
-              <button type="button" className="btn btn-floating facebook mx-1">
-                <i className="bi bi-facebook"></i>
-              </button>
-              <button type="button" className="btn btn-floating twitter mx-1">
-                <i className="bi bi-twitter"></i>
-              </button>
-            </div>
+            <LoginDivider/>
+            <AlternativeLogins/>
           </form>
 
           <div className="login100-bg" />

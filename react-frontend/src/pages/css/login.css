@@ -123,6 +123,17 @@ label {
   margin: 0;
 }
 
+.instructions {
+  outline: none;
+  border: none;
+  color: red;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
 /*---------------------------------------------*/
 button {
 	outline: none !important;
@@ -233,7 +244,7 @@ iframe {
   min-height: 100vh;
   display: block;
   background-color: #f7f7f7;
-  padding: 130px 55px 55px 55px;
+  padding: 80px 55px 55px 55px;
 }
 
 .login100-form-register {
@@ -315,13 +326,17 @@ input.input100 {
   transition: all 0.4s;
 }
 
+.visible-false {visibility: hidden;}
+.visible-true {visibility: visible;}
+
+
 .password-container {
   position: relative;
 }
 
 .password-toggle {
   position: absolute;
-  top: 0;
+  top: 5;
   right: 5px;
   height: 100%;
   display: flex;

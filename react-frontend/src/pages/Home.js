@@ -1,16 +1,11 @@
 import { Link } from "react-router-dom";
 import "./css/home.css";
+import Menu from '../components/Menu.js'
 
 function Home() {  
   return (
     <div className="container">
-      <div class="topnav">
-        <a class="active" href="#home">Home</a>
-        <a href="">Inventory</a>
-        <a href="">History</a>
-        <a href="">Recipes</a>
-        <a href=""><span>&#9881;</span></a>
-      </div>
+      <Menu />
       <h1>Welcome to <br /><strong>ShelfMaster</strong></h1>
       <p>Use ShelfMaster to keep track of what food items you have. <br />
             Visit the Inventory tab to view what you have, or add or delete items.<br />
@@ -21,7 +16,7 @@ function Home() {
         <p>Get started with ShelfMaster by signing up or logging in.</p>
         </div>
         <div class="column">
-          <a href=""><button class="gs-button">Get Started</button></a>
+          <a href="/login"><button class="gs-button">Get Started</button></a>
         </div>
       </div>
     </div>

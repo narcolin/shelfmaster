@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import "./css/login.css";
-import CredentialInput from "../components/CredentialInput";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
@@ -13,7 +12,7 @@ function Login() {
   const [pwd, setPwd] = useState("");
   const [hidePwd, setHidePwd] = useState(true);
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [setSuccess] = useState(false);
 
   // set focus on email input
   useEffect(() => {
@@ -84,12 +83,12 @@ function Login() {
                 Password
               </span>
               <div className="password-toggle">
-                <i
-                  id="showPasswordIcon"
-                  className="bi bi-eye"
-                  onClick={() => setHidePwd(!hidePwd)}
-                />
-              </div>
+                  <i
+                    id="showPasswordIcon"
+                    className={hidePwd ? "bi bi-eye" : "bi bi-eye-slash"}
+                    onClick={() => setHidePwd(!hidePwd)}
+                  />
+                </div>
             </div>
 
             {/* remember me and forgot password */}

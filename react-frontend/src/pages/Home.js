@@ -5,21 +5,12 @@ import Menu from "../components/Menu.js";
 function Home() {
   return (
     <div className="container">
-      <Menu />
-      <h1>
-        Welcome to <br />
-        <strong>ShelfMaster</strong>
-      </h1>
-      <p>
-        Use ShelfMaster to keep track of what food items you have. <br />
-        Visit the Inventory tab to view what you have, or add or delete items.
-        <br />
-        View what you’ve used or eaten in the History tab.
-        <br />
-        The Recipes tab helps you curate recipe ideas based off what’s in your
-        inventory.
-        <br />
-      </p>
+      <Menu active = "Home"/>
+      <h1>Welcome to <br /><strong>ShelfMaster</strong></h1>
+      <p>Use ShelfMaster to keep track of what food items you have. <br />
+            Visit the Inventory tab to view what you have, or add or delete items.<br />
+            View what you’ve used or eaten in the History tab.<br />
+            The Recipes tab helps you curate recipe ideas based off what’s in your inventory.<br /></p>
       <div class="row">
         <div class="column">
           <p>Get started with ShelfMaster by signing up or logging in.</p>

@@ -1,17 +1,13 @@
 import React from "react";
 
-function Menu() {
+const Menu = ({ active }) => {
   return (
-    <div class="topnav">
-      <a class="active" href="/">
-        Home
-      </a>
-      <a href="/inventory">Inventory</a>
-      <a href="">History</a>
-      <a href="/recipes">Recipes</a>
-      <a href="">
-        <span>&#9881;</span>
-      </a>
+    <div className="topnav">
+      <a className={active === "Home" ? 'active' : ''} href="/">Home</a>
+      <a className={active === "Inventory" ? 'active' : ''} href="/inventory">Inventory</a>
+      <a className={active === "History" ? 'active' : ''} href="/history">History</a>
+      <a className={active === "Recipes" ? 'active' : ''} href="/recipes">Recipes</a>
+      <a href=""><span>&#9881;</span></a>
     </div>
   );
 }

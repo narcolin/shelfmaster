@@ -85,6 +85,13 @@ const Register = () => {
       <div className="container-login100">
         <div className="wrap-login100">
           <form className="login100-form-register" onSubmit={handleSubmit}>
+
+            {/* failed reguster */}
+            <div className={`alert alert-danger d-flex align-items-center ${errMsg ? 'visible-true' : 'visible-false'}`}>
+              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"/>
+              <div>Invalid email and password!</div>
+            </div>
+
             <span className="login100-form-title p-b-43">Welcome!</span>
             <div className="wrap-input100 mb-3 email-container">
               <input
@@ -181,6 +188,10 @@ const Register = () => {
                 Login here!
               </Link>
             </div>
+
+            <LoginDivider/>
+            <AlternativeLogins/>
+
           </form>
           <div className="login100-bg" />
         </div>

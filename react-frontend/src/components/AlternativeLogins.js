@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const SocialButton = ({ social }) => {
   return (
@@ -16,6 +16,6 @@ function AlternativeLogins() {
       <SocialButton social="twitter" />
     </div>
   );
-};
+}
 
 export default AlternativeLogins;

@@ -13,5 +13,5 @@ const root = ReactDOMClient.createRoot(container);
 root.render(
   <BrowserRouter basename="/">
     <MyApp />
-  </BrowserRouter>
+  </BrowserRouter>,
 );

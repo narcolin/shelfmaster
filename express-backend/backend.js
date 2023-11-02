@@ -42,13 +42,13 @@ app.post("/users", async (req, res) => {
   else res.status(500).end();
 });
 
-app.delete('/users/:id', async (req, res) => {
-  const id = req.params['id']; //or req.params.id
+app.delete("/users/:id", async (req, res) => {
+  const id = req.params["id"]; //or req.params.id
   const result = await userServices.deleteUserById(id);
   if (result === undefined || result === null)
     res.status(404).send("Resource not found.");
   else {
-    res.status(204).end()
+    res.status(204).end();
   }
 });
 

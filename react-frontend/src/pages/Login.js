@@ -83,12 +83,12 @@ function Login() {
                 Password
               </span>
               <div className="password-toggle">
-                  <i
-                    id="showPasswordIcon"
-                    className={hidePwd ? "bi bi-eye" : "bi bi-eye-slash"}
-                    onClick={() => setHidePwd(!hidePwd)}
-                  />
-                </div>
+                <i
+                  id="showPasswordIcon"
+                  className={hidePwd ? "bi bi-eye" : "bi bi-eye-slash"}
+                  onClick={() => setHidePwd(!hidePwd)}
+                />
+              </div>
             </div>
 
             {/* remember me and forgot password */}

@@ -1,25 +1,32 @@
 import React from "react";
 import "./css/inventory.css";
 import Table from "../Table";
-import Menu from '../components/Menu.js'
+import Menu from "../components/Menu.js";
 
-function Inventory() {  
+function Inventory() {
   return (
     <div className="container">
-        <Menu active="Inventory"/>
+      <Menu active="Inventory" />
       <div className="container">
-        <h1>ShelfMaster <strong>Inventory</strong></h1><br />
+        <h1>
+          ShelfMaster <strong>Inventory</strong>
+        </h1>
+        <br />
         <Table />
       </div>
 
       <div class="column">
         <div class="column">
-          <a href=""><button class="cc-button">Custom Food Category</button></a>
-          <a href=""><button class="ei-button">Edit Inventory</button></a>
-          </div>
-          </div>
+          <a href="">
+            <button class="cc-button">Custom Food Category</button>
+          </a>
+          <a href="">
+            <button class="ei-button">Edit Inventory</button>
+          </a>
         </div>
-  )
+      </div>
+    </div>
+  );
 }
 
 // function TableHeader() {
@@ -44,7 +51,7 @@ function Inventory() {
 //         <td>{row.datepurchased}</td>
 //         <td>{row.quantityleft}</td>
 //         <td>
-//           <button onClick={() => 
+//           <button onClick={() =>
 //             props.removeCharacter(index)}>
 //             Delete
 //           </button>
@@ -64,7 +71,7 @@ function Inventory() {
 //   return (
 //     <table>
 //       <Inventory />
-//       <TableBody characterData={props.characterData} 
+//       <TableBody characterData={props.characterData}
 // 	      removeCharacter={props.removeCharacter} />
 //     </table>
 //   );

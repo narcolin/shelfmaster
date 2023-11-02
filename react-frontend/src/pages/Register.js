@@ -2,7 +2,6 @@ import React from "react";
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import CredentialInput from "../components/CredentialInput";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
@@ -16,7 +15,7 @@ const Register = () => {
   const errRef = useRef();
 
   const [email, setEmail] = useState("");
-  const [emailFocus, setEmailFocus] = useState(false);
+  const [setEmailFocus] = useState(false);
 
   const [pwd, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
@@ -24,10 +23,10 @@ const Register = () => {
 
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
-  const [matchFocus, setMatchFocus] = useState(false);
+  const [setMatchFocus] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [setSuccess] = useState(false);
 
   useEffect(() => {
     emailRef.current?.focus();
@@ -85,10 +84,13 @@ const Register = () => {
       <div className="container-login100">
         <div className="wrap-login100">
           <form className="login100-form-register" onSubmit={handleSubmit}>
-
-            {/* failed reguster */}
-            <div className={`alert alert-danger d-flex align-items-center ${errMsg ? 'visible-true' : 'visible-false'}`}>
-              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2"/>
+            {/* failed register */}
+            <div
+              className={`alert alert-danger d-flex align-items-center ${
+                errMsg ? "visible-true" : "visible-false"
+              }`}
+            >
+              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
               <div>Invalid email and password!</div>
             </div>
 
@@ -189,9 +191,8 @@ const Register = () => {
               </Link>
             </div>
 
-            <LoginDivider/>
-            <AlternativeLogins/>
-
+            <LoginDivider />
+            <AlternativeLogins />
           </form>
           <div className="login100-bg" />
         </div>

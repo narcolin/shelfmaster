@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import {
-  GridRowModes,
+          GridRowModes,
   DataGrid,
   GridToolbarContainer,
   GridActionsCellItem,
@@ -19,6 +19,8 @@ import {
   randomId,
   randomArrayItem,
 } from "@mui/x-data-grid-generator";
+
+const variableNotUsed = 6;
 
 const roles = [
   "Grains",

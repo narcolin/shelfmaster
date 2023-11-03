@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./css/home.css";
 import Menu from "../components/Menu.js";
 
@@ -20,13 +20,13 @@ function Home() {
         inventory.
         <br />
       </p>
-      <div class="row">
-        <div class="column">
+      <div className="row">
+        <div className="column">
           <p>Get started with ShelfMaster by signing up or logging in.</p>
         </div>
-        <div class="column">
+        <div className="column">
           <a href="/login">
-            <button class="gs-button">Get Started</button>
+            <button className="gs-button">Get Started</button>
           </a>
         </div>
       </div>

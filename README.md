@@ -59,7 +59,7 @@ If you want prettier to format on save for VS Code, follow the guide [here](http
 
 To add pre-commit hooks add this as `pre-commit` file as an executable to .git/hooks:
 ```sh
-#!/bin/sh
+#!/bin/bash
 
 STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".jsx\{0,1\}$")
 

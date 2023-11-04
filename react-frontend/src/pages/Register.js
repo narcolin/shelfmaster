@@ -25,7 +25,7 @@ const Register = () => {
 
   // set focus on email input
   useEffect(() => {
-    emailRef.current?.focus();
+    emailRef.current.focus();
   }, []);
 
   // check valid and match password
@@ -51,7 +51,7 @@ const Register = () => {
         },
       });
       if (error) throw error;
-      if (data?.user?.identities?.length === 0)
+      if (data.user.identities.length === 0)
         setErrMsg("User already registered.");
       // TODO: add redirect to success page saying check email for verification
       else setSuccess(true);
@@ -78,7 +78,7 @@ const Register = () => {
             className="login100-form-register"
             onSubmit={(e) => handleSubmit(e)}
           >
-            {/* failed register */}
+            {/* failure/success message */}
             <div
               className={`alert ${
                 errMsg ? "alert-danger" : "alert-success"

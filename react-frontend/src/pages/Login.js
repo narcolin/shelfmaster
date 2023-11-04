@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
+import { supabase } from "../Client";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
@@ -8,42 +9,69 @@ function Login() {
   const emailRef = useRef();
 
   const [email, setEmail] = useState("");
+
   const [pwd, setPwd] = useState("");
   const [hidePwd, setHidePwd] = useState(true);
+
   const [errMsg, setErrMsg] = useState("");
-  const [setSuccess] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   // set focus on email input
   useEffect(() => {
     emailRef.current.focus();
   }, []);
 
-  // on edit of user/pwd, clears error message
-  useEffect(() => {
-    setErrMsg("");
-  }, [email, pwd]);
-
-  const handleSubmit = async (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(email, pwd);
-    setSuccess(true);
-  };
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: pwd,
+      });
+      if (error) throw error;
+      // TODO: add redirect to inventory
+      else setSuccess(true);
+      console.log(data);
+    } catch (error) {
+      console.log(error.message);
+      switch (error.message) {
+        case "Invalid login credentials":
+          setErrMsg("Invalid login credentials.");
+          break;
+        default:
+          setErrMsg("Something went wrong!");
+          break;
+      }
+    }
+    setEmail("");
+    setPwd("");
+  }
 
   return (
     <div className="limiter">
       <div className="container-login100">
         <div className="wrap-login100">
-          <form className="login100-form" onSubmit={handleSubmit}>
-            {/* failed login */}
+          <form className="login100-form" onSubmit={(e) => handleSubmit(e)}>
+            {/* failure/success message */}
             <div
-              className={`alert alert-danger d-flex align-items-center ${
-                errMsg ? "visible-true" : "visible-false"
+              className={`alert ${
+                errMsg ? "alert-danger" : "alert-success"
+              } d-flex align-items-center ${
+                errMsg || success ? "visible-true" : "visible-false"
               }`}
             >
-              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
-              <div>Invalid email and password!</div>
+              {success ? (
+                <>
+                  <i className="bi bi-check-circle-fill flex-shrink-0 me-2" />
+                  <div>Login success.</div>
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
+                  <div>{errMsg}</div>
+                </>
+              )}
             </div>
-
             {/* header */}
             <span className="login100-form-title p-b-43">
               Login to continue
@@ -57,7 +85,11 @@ function Login() {
                 id="email"
                 ref={emailRef}
                 autoComplete="off"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrMsg("");
+                  setSuccess(false);
+                }}
                 value={email}
                 required
               />
@@ -73,7 +105,11 @@ function Login() {
                 className={`input100 ${pwd ? "has-val" : ""}`}
                 type={hidePwd ? "password" : "text"}
                 id="password"
-                onChange={(e) => setPwd(e.target.value)}
+                onChange={(e) => {
+                  setPwd(e.target.value);
+                  setErrMsg("");
+                  setSuccess(false);
+                }}
                 value={pwd}
                 required
               />

@@ -1755,24 +1755,23 @@ input.input100 {
   color: #fff;
 }
 
-
 /* containers (use 25% for four, and 50% for two, etc) */
 .column {
-	float: left;
-	flex: 50%;
-	width: 50%;
-	padding: 10px;
-  }
-  
+  float: left;
+  flex: 50%;
+  width: 50%;
+  padding: 10px;
+}
+
 /* clear floats after image containers */
 .row::after {
-	content: "";
-	clear: both;
-	display: table;
+  content: "";
+  clear: both;
+  display: table;
 }
 
 .row {
-	display: flex;
+  display: flex;
 }
 
 /* get started button */
@@ -1799,33 +1798,33 @@ input.input100 {
 }
 
 .topnav {
-	background-color: black;
-	overflow: hidden;
-  }
-  
-  /* Style the links inside the navigation bar */
-  .topnav a {
-	float: left;
-	background-color: black;
-	color: #ffffff;
-	text-align: center;
-	font-size: 1.6em;
-	padding: 17px 17px;
-	text-decoration: none;
-	font-size: 17px;
-  }
-  
-  /* Change the color of links on hover */
-  .topnav a:hover {
-	background-color: #6675df;
-	color: #ffffff;
-  }
-  
-  /* Add a color to the active/current link */
-  .topnav a.active {
-	background-color: #6675df;
-	color: white;
-  }
+  background-color: black;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  background-color: black;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.6em;
+  padding: 17px 17px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #6675df;
+  color: #ffffff;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #6675df;
+  color: white;
+}
 /*
  * Navigation
  */

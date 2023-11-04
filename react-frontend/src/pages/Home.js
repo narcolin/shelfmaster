@@ -1,5 +1,4 @@
 // import { Link } from "react-router-dom";
-import "./css/home.css";
 import Menu from "../components/Menu.js";
 
 function Home() {
@@ -25,7 +24,7 @@ function Home() {
           <p>Get started with ShelfMaster by signing up or logging in.</p>
         </div>
         <div className="column">
-          <a href="/login">
+          <a href="/register">
             <button className="gs-button">Get Started</button>
           </a>
         </div>

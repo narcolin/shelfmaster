@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
-import "./css/login.css";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";

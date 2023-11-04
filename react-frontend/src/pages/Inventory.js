@@ -1,5 +1,4 @@
 import React from "react";
-import "./css/inventory.css";
 import Table from "../Table";
 import Menu from "../components/Menu.js";
 

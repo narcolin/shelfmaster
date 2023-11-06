@@ -1,10 +1,9 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Inventory from './pages/Inventory';
-import Register from './pages/Register';
-
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Inventory from "./pages/Inventory";
+import Register from "./pages/Register";
 
 function MyApp() {
   const location = useLocation();
@@ -12,7 +11,7 @@ function MyApp() {
   useEffect(() => {
     document.title = "Shelf Master";
   }, []);
-  
+
   // Updates the title whenever location changes
   useEffect(() => {
     if (location.pathname === "/login") {
@@ -33,7 +32,7 @@ function MyApp() {
       <Route path="/register" element={<Register />} />
       <Route path="/inventory" element={<Inventory />} />
     </Routes>
-  )
+  );
 }
 
 export default MyApp;

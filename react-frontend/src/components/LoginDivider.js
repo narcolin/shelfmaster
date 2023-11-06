@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function LoginDivider() {
   return (
@@ -6,6 +6,6 @@ function LoginDivider() {
       <p className="text-center fw-bold mx-4 mb-0 text-muted">OR</p>
     </div>
   );
-};
+}
 
 export default LoginDivider;

@@ -8,6 +8,7 @@ function History() {
       <h1>
         ShelfMaster <strong>History</strong>
       </h1>
+      <br />
     </div>
   );
 }

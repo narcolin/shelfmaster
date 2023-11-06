@@ -14,24 +14,24 @@ import {
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import {
-  randomCreatedDate,
-  randomTraderName,
+  // randomCreatedDate,
+  // randomTraderName,
   randomId,
-  randomArrayItem,
+  // randomArrayItem,
 } from "@mui/x-data-grid-generator";
 
-const roles = [
-  "Grains",
-  "Fruits",
-  "Vegetables",
-  "Proteins",
-  "Dairy",
-  "Beverages",
-  "Miscelaneous",
-];
-const randomRole = () => {
-  return randomArrayItem(roles);
-};
+// const roles = [
+//   "Grains",
+//   "Fruits",
+//   "Vegetables",
+//   "Proteins",
+//   "Dairy",
+//   "Beverages",
+//   "Miscelaneous",
+// ];
+// const randomRole = () => {
+//   return randomArrayItem(roles);
+// };
 
 const initialRows = [
   {
@@ -157,6 +157,7 @@ export default function FullFeaturedCrudGrid() {
         if (isInEditMode) {
           return [
             <GridActionsCellItem
+              key="first"
               icon={<SaveIcon />}
               label="Save"
               sx={{
@@ -165,6 +166,7 @@ export default function FullFeaturedCrudGrid() {
               onClick={handleSaveClick(id)}
             />,
             <GridActionsCellItem
+              key="second"
               icon={<CancelIcon />}
               label="Cancel"
               className="textPrimary"
@@ -176,6 +178,7 @@ export default function FullFeaturedCrudGrid() {
 
         return [
           <GridActionsCellItem
+            key="first"
             icon={<EditIcon />}
             label="Edit"
             className="textPrimary"
@@ -183,6 +186,7 @@ export default function FullFeaturedCrudGrid() {
             color="inherit"
           />,
           <GridActionsCellItem
+            key="second"
             icon={<DeleteIcon />}
             label="Delete"
             onClick={handleDeleteClick(id)}

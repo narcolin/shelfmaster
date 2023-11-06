@@ -1,5 +1,4 @@
-import { Link } from "react-router-dom";
-import "./css/home.css";
+// import { Link } from "react-router-dom";
 import Menu from "../components/Menu.js";
 
 function Recipes() {

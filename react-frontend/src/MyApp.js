@@ -1,5 +1,5 @@
-import { Route, Routes, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { Route, Routes, useLocation, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Inventory from "./pages/Inventory";
@@ -7,8 +7,22 @@ import Register from "./pages/Register";
 
 function MyApp() {
   const location = useLocation();
-  // Sets the initial title
+
+  const [token, setToken] = useState(false);
+
+  // sets token for authorization
+  if (token) {
+    sessionStorage.setItem("token", JSON.stringify(token));
+  }
+
+  // on render
   useEffect(() => {
+    // saves token until logout
+    if (sessionStorage.getItem("token")) {
+      let data = JSON.parse(sessionStorage.getItem("token"));
+      setToken(data);
+    }
+    // sets title
     document.title = "Shelf Master";
   }, []);
 
@@ -25,12 +39,25 @@ function MyApp() {
     }
   }, [location.pathname]);
 
+  console.log(token);
+
   return (
     <Routes>
       <Route path="/" element={<Home />} exact />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/inventory" element={<Inventory />} />
+      <Route
+        path="/login"
+        element={
+          token ? <Navigate to="/inventory" /> : <Login setToken={setToken} />
+        }
+      />
+      <Route
+        path="/register"
+        element={token ? <Navigate to="/inventory" /> : <Register />}
+      />
+      <Route
+        path="/inventory"
+        element={token ? <Inventory /> : <Navigate to="/login" />}
+      />
     </Routes>
   );
 }

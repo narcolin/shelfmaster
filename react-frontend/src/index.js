@@ -11,7 +11,9 @@ const root = ReactDOMClient.createRoot(container);
 
 // Initial render:
 root.render(
-  <BrowserRouter basename="/">
-    <MyApp />
-  </BrowserRouter>,
+  <React.StrictMode>
+    <BrowserRouter basename="/">
+      <MyApp />
+    </BrowserRouter>
+  </React.StrictMode>,
 );

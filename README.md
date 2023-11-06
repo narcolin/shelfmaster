@@ -57,28 +57,50 @@ You should be able to call this with ```npm run format```
 
 If you want prettier to format on save for VS Code, follow the guide [here](https://blog.yogeshchavan.dev/automatically-format-code-on-file-save-in-visual-studio-code-using-prettier).
 
-To add commit hooks first install:
+To add pre-commit hooks add this as `pre-commit` file as an executable to .git/hooks:
 ```sh
-npm install --save husky lint-staged
+#!/bin/bash
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".jsx\{0,1\}$")
+
+if [[ "$STAGED_FILES" = "" ]]; then
+  exit 0
+fi
+
+PASS=true
+
+echo "\nValidating Javascript:\n"
+ESLINT="$(git rev-parse --show-toplevel)/react-frontend/node_modules/.bin/eslint"
+
+# Check for eslint
+# which eslint &> /dev/null
+if [[ ! -x "$ESLINT" ]]; then
+  echo "\t\033[41mPlease install ESlint\033[0m"
+  exit 1
+fi
+
+for FILE in $STAGED_FILES
+do
+  "$ESLINT" "$FILE"
+
+  if [[ "$?" == 0 ]]; then
+    echo "\t\033[32mESLint Passed: $FILE\033[0m"
+  else
+    echo "\t\033[41mESLint Failed: $FILE\033[0m"
+    PASS=false
+  fi
+done
+
+echo "\nJavascript validation completed!\n"
+
+if ! $PASS; then
+  echo "\033[41mCOMMIT FAILED:\033[0m Your commit contains files that should pass ESLint but do not. Please fix the ESLint errors and try again.\n"
+  exit 1
+else
+  echo "\033[42mCOMMIT SUCCEEDED\033[0m\n"
+fi
+
+exit $?
 ```
- - ```husky``` makes it possible to use githooks as if they are npm scripts.
- - ```lint-staged``` lets us run scripts on staged files in git.
 
- If not present, add the `husky` field to `package.json`:
- ```json
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  }
- ```
- Then add the `lint-staged` field:
- ```json
-  "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --write"
-    ]
-  },
- ```
-
- Whenever you make a commit, Prettier should now run automatically. Of course, you can still run the format script whenever you wish.
+ESLint should now run on files staged before your commit goes through.

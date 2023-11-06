@@ -1,5 +1,4 @@
 import React from "react";
-import "./css/inventory.css";
 import Table from "../Table";
 import Menu from "../components/Menu.js";
 
@@ -15,13 +14,13 @@ function Inventory() {
         <Table />
       </div>
 
-      <div class="column">
-        <div class="column">
+      <div className="column">
+        <div className="column">
           <a href="">
-            <button class="cc-button">Custom Food Category</button>
+            <button className="cc-button">Custom Food Category</button>
           </a>
           <a href="">
-            <button class="ei-button">Edit Inventory</button>
+            <button className="ei-button">Edit Inventory</button>
           </a>
         </div>
       </div>

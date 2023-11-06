@@ -1,11 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import { supabase } from "../Client";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
 
-function Login() {
+function Login({ setToken }) {
+  let navigate = useNavigate();
+
   const emailRef = useRef();
 
   const [email, setEmail] = useState("");
@@ -14,7 +16,6 @@ function Login() {
   const [hidePwd, setHidePwd] = useState(true);
 
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
 
   // set focus on email input
   useEffect(() => {
@@ -29,9 +30,8 @@ function Login() {
         password: pwd,
       });
       if (error) throw error;
-      // TODO: add redirect to inventory
-      else setSuccess(true);
-      console.log(data);
+      setToken(data);
+      navigate("/inventory");
     } catch (error) {
       console.log(error.message);
       switch (error.message) {
@@ -54,23 +54,12 @@ function Login() {
           <form className="login100-form" onSubmit={(e) => handleSubmit(e)}>
             {/* failure/success message */}
             <div
-              className={`alert ${
-                errMsg ? "alert-danger" : "alert-success"
-              } d-flex align-items-center ${
-                errMsg || success ? "visible-true" : "visible-false"
+              className={`alert alert-danger d-flex align-items-center ${
+                errMsg ? "visible-true" : "visible-false"
               }`}
             >
-              {success ? (
-                <>
-                  <i className="bi bi-check-circle-fill flex-shrink-0 me-2" />
-                  <div>Login success.</div>
-                </>
-              ) : (
-                <>
-                  <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
-                  <div>{errMsg}</div>
-                </>
-              )}
+              <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
+              <div>{errMsg}</div>
             </div>
             {/* header */}
             <span className="login100-form-title p-b-43">
@@ -88,7 +77,6 @@ function Login() {
                 onChange={(e) => {
                   setEmail(e.target.value);
                   setErrMsg("");
-                  setSuccess(false);
                 }}
                 value={email}
                 required
@@ -108,7 +96,6 @@ function Login() {
                 onChange={(e) => {
                   setPwd(e.target.value);
                   setErrMsg("");
-                  setSuccess(false);
                 }}
                 value={pwd}
                 required
@@ -158,6 +145,7 @@ function Login() {
 
             <LoginDivider />
             <AlternativeLogins />
+            <p>Demo login: dennisphun321@gmail.com Abcd123!</p>
           </form>
 
           <div className="login100-bg" />

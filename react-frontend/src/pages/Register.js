@@ -141,11 +141,11 @@ const Register = () => {
             </div>
             <p
               id="pwdnote"
-              className={
+              className={`mb-3 ${
                 (pwd && !validPwd) || (pwdFocus && !validPwd)
                   ? "instructions"
                   : "offscreen"
-              }
+              }`}
             >
               At least 8 characters.
               <br />
@@ -183,7 +183,7 @@ const Register = () => {
             </div>
             <p
               id="confirmnote"
-              className={!validMatch ? "instructions" : "offscreen"}
+              className={`mb-3 ${!validMatch ? "instructions" : "offscreen"}`}
             >
               Must match the first password input field.
             </p>

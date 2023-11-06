@@ -24,7 +24,7 @@ function Home() {
           <p>Get started with ShelfMaster by signing up or logging in.</p>
         </div>
         <div className="column">
-          <a href="/register">
+          <a href="/login">
             <button className="gs-button">Get Started</button>
           </a>
         </div>

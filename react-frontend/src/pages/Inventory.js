@@ -6,13 +6,11 @@ function Inventory() {
   return (
     <div className="container">
       <Menu active="Inventory" />
-      <div className="container">
-        <h1>
-          ShelfMaster <strong>Inventory</strong>
-        </h1>
-        <br />
-        <Table />
-      </div>
+      <h1>
+        ShelfMaster <strong>Inventory</strong>
+      </h1>
+      <br />
+      <Table />
     </div>
   );
 }

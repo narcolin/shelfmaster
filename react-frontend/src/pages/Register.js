@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../Client";
+import axios from "axios";
 import LoginDivider from "../components/LoginDivider";
 import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
@@ -54,7 +55,17 @@ const Register = () => {
       if (data.user.identities.length === 0)
         setErrMsg("User already registered.");
       // TODO: add redirect to success page saying check email for verification
-      else setSuccess(true);
+      else {
+        // Add user to database, assume this is successful. Potential
+        // duplicate garbage data that we should find a way to clean
+        /* eslint-disable no-unused-vars */
+        const response = await axios.post("http://localhost:8000/users", {
+          _id: data.user.id,
+        });
+        /* eslint-enable no-unused-vars */
+        // console.log(response);
+        setSuccess(true);
+      }
     } catch (error) {
       switch (error.message) {
         case "User already registered":

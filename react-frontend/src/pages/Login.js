@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRef, useState, useEffect } from "react";
 import { supabase } from "../Client";
 import LoginDivider from "../components/LoginDivider";
@@ -6,8 +6,6 @@ import SubmitCredentials from "../components/SubmitCredentials";
 import AlternativeLogins from "../components/AlternativeLogins";
 
 function Login() {
-  let navigate = useNavigate();
-
   const emailRef = useRef();
 
   const [email, setEmail] = useState("");
@@ -28,14 +26,15 @@ function Login() {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: pwd,
+        options: {
+          redirectTo: "localhost:3000/inventory",
+        },
       });
       if (error) throw error;
       // if remember me, stores in local storage
       if (document.getElementById("ckb1").checked) {
         localStorage.setItem("token", data.session.access_token);
       }
-      // redirect to inventory
-      navigate("/inventory");
     } catch (error) {
       switch (error.message) {
         case "Invalid login credentials":

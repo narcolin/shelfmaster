@@ -6,7 +6,7 @@ const Menu = ({ active }) => {
   let navigate = useNavigate();
 
   async function handleLogout() {
-    await supabase.auth.signOut({ scope: "global" });
+    await supabase.auth.signOut();
     navigate("/");
   }
 

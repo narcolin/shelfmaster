@@ -13,7 +13,7 @@ function MyApp() {
   const [token, setToken] = useState(false);
 
   useEffect(() => {
-    // keeps the user logged in/out
+    // updates the session storage if log in/out
     supabase.auth.onAuthStateChange((event, session) => {
       switch (event) {
         case "SIGNED_IN":
@@ -21,11 +21,15 @@ function MyApp() {
           break;
         case "SIGNED_OUT":
           sessionStorage.removeItem("token");
+          localStorage.removeItem("token");
           break;
         default:
       }
-      if (sessionStorage.getItem("token")) {
-        setToken(sessionStorage.getItem("token"));
+      // keeps the user logged in/out
+      if (sessionStorage.getItem("token") || localStorage.getItem("token")) {
+        setToken(
+          sessionStorage.getItem("token") || localStorage.getItem("token"),
+        );
       }
     });
 

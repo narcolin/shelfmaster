@@ -25,11 +25,16 @@ function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: pwd,
       });
       if (error) throw error;
+      // if remember me, stores in local storage
+      if (document.getElementById("ckb1").checked) {
+        localStorage.setItem("token", data.session.access_token);
+      }
+      // redirect to inventory
       navigate("/inventory");
     } catch (error) {
       switch (error.message) {

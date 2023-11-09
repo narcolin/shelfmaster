@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Inventory from "./pages/Inventory";
 import Register from "./pages/Register";
+import History from "./pages/History";
+import Recipes from "./pages/Recipes";
 import { supabase } from "./Client";
 
 function MyApp() {
@@ -39,6 +41,10 @@ function MyApp() {
       document.title = "Register - Shelf Master";
     } else if (location.pathname === "/inventory") {
       document.title = "Inventory - Shelf Master";
+    } else if (location.pathname === "/history") {
+      document.title = "History - Shelf Master";
+    } else if (location.pathname === "/recipes") {
+      document.title = "Recipes - Shelf Master";
     } else {
       document.title = "Shelf Master";
     }
@@ -58,6 +64,14 @@ function MyApp() {
       <Route
         path="/inventory"
         element={token ? <Inventory /> : <Navigate to="/login" />}
+      />
+      <Route
+        path="/history"
+        element={token ? <History /> : <Navigate to="/history" />}
+      />
+      <Route
+        path="/recipes"
+        element={token ? <Recipes /> : <Navigate to="/recipes" />}
       />
     </Routes>
   );

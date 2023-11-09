@@ -14,10 +14,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", async (req, res) => {
+  const id = req.query["id"];
   const name = req.query["name"];
-  const job = req.query["job"];
   try {
-    const result = await userServices.getUsers(name, job);
+    const result = await userServices.getUsers(id, name);
     res.send({ users_list: result });
   } catch (error) {
     console.log(error);

@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import Menu from "../components/Menu.js";
 
 function Home() {
@@ -10,13 +9,16 @@ function Home() {
         <strong>ShelfMaster</strong>
       </h1>
       <p>
-        Use ShelfMaster to keep track of what food items you have. <br />
+        Use ShelfMaster to keep track of what food items you have.
+        <br />
+        <br />
         Visit the Inventory tab to view what you have, or add or delete items.
         <br />
         View what you’ve used or eaten in the History tab.
         <br />
         The Recipes tab helps you curate recipe ideas based off what’s in your
         inventory.
+        <br />
         <br />
       </p>
       <div className="row">

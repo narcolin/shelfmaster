@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import History from "./pages/History";
 import Recipes from "./pages/Recipes";
 import { supabase } from "./Client";
+import Loading from "./pages/Loading";
 
 function MyApp() {
   const location = useLocation();
@@ -42,7 +43,10 @@ function MyApp() {
         );
       }
       // used to render blank screen so it doesn't have page flash
-      setAuthChecked(true);
+      // TODO: probably better to only use when have to do api calls
+      setTimeout(() => {
+        setAuthChecked(true);
+      }, 1000);
     });
   }, []);
 
@@ -74,7 +78,7 @@ function MyApp() {
           </>
         )
       ) : (
-        <Route path={location.pathname} element={<></>} />
+        <Route path={location.pathname} element={<Loading />} />
       )}
     </Routes>
   );

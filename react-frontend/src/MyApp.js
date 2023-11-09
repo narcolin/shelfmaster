@@ -4,24 +4,29 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Inventory from "./pages/Inventory";
 import Register from "./pages/Register";
+import { supabase } from "./Client";
 
 function MyApp() {
   const location = useLocation();
-
   const [token, setToken] = useState(false);
 
-  // sets token for authorization
-  if (token) {
-    sessionStorage.setItem("token", JSON.stringify(token));
-  }
-
-  // on render
   useEffect(() => {
-    // saves token until logout
-    if (sessionStorage.getItem("token")) {
-      let data = JSON.parse(sessionStorage.getItem("token"));
-      setToken(data);
-    }
+    // keeps the user logged in/out
+    supabase.auth.onAuthStateChange((event, session) => {
+      switch (event) {
+        case "SIGNED_IN":
+          sessionStorage.setItem("token", session.access_token);
+          break;
+        case "SIGNED_OUT":
+          sessionStorage.removeItem("token");
+          break;
+        default:
+      }
+      if (sessionStorage.getItem("token")) {
+        setToken(sessionStorage.getItem("token"));
+      }
+    });
+
     // sets title
     document.title = "Shelf Master";
   }, []);
@@ -39,16 +44,12 @@ function MyApp() {
     }
   }, [location.pathname]);
 
-  console.log(token);
-
   return (
     <Routes>
       <Route path="/" element={<Home />} exact />
       <Route
         path="/login"
-        element={
-          token ? <Navigate to="/inventory" /> : <Login setToken={setToken} />
-        }
+        element={token ? <Navigate to="/inventory" /> : <Login />}
       />
       <Route
         path="/register"

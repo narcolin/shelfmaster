@@ -1,6 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../Client";
 
 const Menu = ({ active }) => {
+  let navigate = useNavigate();
+
+  async function handleLogout() {
+    await supabase.auth.signOut({ scope: "global" });
+    navigate("/");
+  }
+
   return (
     <div className="topnav">
       <a className={active === "Home" ? "active" : ""} href="/">
@@ -18,6 +27,7 @@ const Menu = ({ active }) => {
       <a href="">
         <span>&#9881;</span>
       </a>
+      <button onClick={() => handleLogout()}>Logout</button>
     </div>
   );
 };

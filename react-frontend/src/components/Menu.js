@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../Client";
+import logo from "../images/logo.png";
 
 const Menu = ({ active }) => {
   let navigate = useNavigate();
@@ -10,8 +11,26 @@ const Menu = ({ active }) => {
     navigate("/");
   }
 
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownVisible(!isDropdownVisible);
+  };
+
+  const closeDropdown = () => {
+    setDropdownVisible(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener("click", closeDropdown);
+    return () => {
+      window.removeEventListener("click", closeDropdown);
+    };
+  }, []);
+
   return (
-    <div className="topnav">
+    <div className="navbar">
+      <img className="logoimg" src={logo} width={250} height={40}></img>
       <a className={active === "Home" ? "active" : ""} href="/">
         Home
       </a>
@@ -24,9 +43,26 @@ const Menu = ({ active }) => {
       <a className={active === "Recipes" ? "active" : ""} href="/recipes">
         Recipes
       </a>
-      <a href="">
-        <span>&#9881;</span>
-      </a>
+      <div className="dropdown" onClick={toggleDropdown}>
+        <button className="dropbtn">Settings &nbsp;&#x25BC;</button>
+        <div className="dropdown-content" id="myDropdown">
+          <a
+            className={active === "Account Settings" ? "active" : ""}
+            href="/settings"
+          >
+            Account Settings
+          </a>
+          <a className={active === "About" ? "active" : ""} href="/about">
+            About
+          </a>
+          <a
+            className={active === "Give Feedback" ? "active" : ""}
+            href="/feedback"
+          >
+            Give Feedback
+          </a>
+        </div>
+      </div>
       <button onClick={() => handleLogout()}>Logout</button>
     </div>
   );

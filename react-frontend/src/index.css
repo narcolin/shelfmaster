@@ -1797,34 +1797,91 @@ input.input100 {
   background: #333333;
 }
 
-.topnav {
-  background-color: black;
+/* Navbar container */
+.navbar {
+  background-color: #333;
   overflow: hidden;
 }
 
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  background-color: black;
-  color: #ffffff;
-  text-align: center;
-  font-size: 1.6em;
-  padding: 17px 17px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #6675df;
-  color: #ffffff;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #6675df;
+/* Menu items */
+.navbar a {
   color: white;
+  margin: 0px;
+  padding: 10px;
 }
+
+/* Highlight active menu item */
+.navbar a:active {
+  font-weight: bold;
+  background-color: #6675df;
+}
+
+.navbar a:hover{
+  font-weight: bold;
+  background-color: #6675df;
+}
+/* Dropdown button */
+.dropbtn {
+  background-color: #333 !important;
+  color: white;
+  font-family: Montserrat-Bold;
+  font-size: 14px;
+  padding-right: 60px;
+  border: none !important;
+  cursor: pointer;
+  padding-top: 20px;
+}
+
+/* Dropdown content container */
+.dropdown-content {
+  display: none;
+  position: fixed;
+  background-color: #333;
+  min-width: 157.5px;
+  z-index: 1;
+}
+
+/* Dropdown items */
+.dropdown-content a {
+  color: white;
+  padding: 12px 12px;
+  display: table;
+}
+
+.dropdown-content a:hover{
+  background-color: #6675df;
+}
+
+/* On hover, show the dropdown menu */
+.dropdown:hover .dropdown-content {
+  display: table;
+}
+
+/* Overlay to close the dropdown */
+.overlay {
+  position: fixed;
+  /* top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* display: inline; */
+  z-index: 2;
+}
+
+/* Show the overlay when the dropdown is open */
+.dropdown:hover + .overlay, .overlay:hover {
+  display: outside;
+}
+
+.logoimg{
+  display: left;
+  padding-left: 25px;
+  /* padding: 10px; */
+}
+
+
+
 /*
  * Navigation
  */

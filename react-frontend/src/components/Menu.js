@@ -30,7 +30,7 @@ const Menu = ({ active }) => {
 
   return (
     <div className="navbar">
-      <img className="logoimg" src={logo} width={250} height={40}></img>
+      <img className="logoimg" src={logo} width={250} height={37}></img>
       <a className={active === "Home" ? "active" : ""} href="/">
         Home
       </a>

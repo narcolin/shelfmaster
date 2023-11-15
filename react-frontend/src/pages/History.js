@@ -1,5 +1,6 @@
 // import { Link } from "react-router-dom";
 import Menu from "../components/Menu.js";
+import Table from "../Table";
 
 function History() {
   return (
@@ -9,6 +10,7 @@ function History() {
         ShelfMaster <strong>History</strong>
       </h1>
       <br />
+      <Table />
     </div>
   );
 }

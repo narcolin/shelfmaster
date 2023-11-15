@@ -23,31 +23,33 @@ function MyApp() {
     "/recipes": "Recipes - Shelf Master",
   };
 
+  // sets token if session exists
+  async function getSession() {
+    const { data } = await supabase.auth.getSession();
+    setToken(data.session?.access_token);
+  }
+
   useEffect(() => {
-    // updates the session storage if log in/out
+    getSession();
+    // updates token if sign in/out for rerender
     supabase.auth.onAuthStateChange((event, session) => {
       switch (event) {
         case "SIGNED_IN":
-          sessionStorage.setItem("token", session.access_token);
+          setToken(session.access_token);
           break;
         case "SIGNED_OUT":
-          sessionStorage.removeItem("token");
-          localStorage.removeItem("token");
+          setToken(null);
           break;
         default:
+          setToken(null);
+          break;
       }
-      // keeps the user logged in/out
-      if (sessionStorage.getItem("token") || localStorage.getItem("token")) {
-        setToken(
-          sessionStorage.getItem("token") || localStorage.getItem("token"),
-        );
-      }
-      // used to render blank screen so it doesn't have page flash
-      // TODO: probably better to only use when have to do api calls
-      setTimeout(() => {
-        setAuthChecked(true);
-      }, 1000);
     });
+    // used to render blank screen so it doesn't have page flash
+    // TODO: probably better to only use when have to do api calls
+    setTimeout(() => {
+      setAuthChecked(true);
+    }, 1000);
   }, []);
 
   // Updates the title whenever location changes

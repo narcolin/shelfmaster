@@ -1756,11 +1756,18 @@ input.input100 {
 }
 
 /* containers (use 25% for four, and 50% for two, etc) */
-.column {
+.column3 {
+  float: left;
+  flex: 33%;
+  width: 33%;
+  padding: 20px;
+}
+
+.column2 {
   float: left;
   flex: 50%;
   width: 50%;
-  padding: 10px;
+  padding: 20px;
 }
 
 /* clear floats after image containers */
@@ -1774,13 +1781,17 @@ input.input100 {
   display: flex;
 }
 
+hr {
+  border-width: 9px;
+}
+
 /* get started button */
 .gs-button {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  width: 100%;
+  width: 60%;
   height: 50px;
   border-radius: 10px;
   background: #6675df;
@@ -1816,7 +1827,7 @@ input.input100 {
   background-color: #6675df;
 }
 
-.navbar a:hover{
+.navbar a:hover {
   font-weight: bold;
   background-color: #6675df;
 }
@@ -1848,7 +1859,7 @@ input.input100 {
   display: table;
 }
 
-.dropdown-content a:hover{
+.dropdown-content a:hover {
   background-color: #6675df;
 }
 
@@ -1870,17 +1881,24 @@ input.input100 {
 }
 
 /* Show the overlay when the dropdown is open */
-.dropdown:hover + .overlay, .overlay:hover {
+.dropdown:hover + .overlay,
+.overlay:hover {
   display: outside;
 }
 
-.logoimg{
+.logoimg {
   display: left;
   padding-left: 25px;
   /* padding: 10px; */
 }
 
+.featimg {
+  justify-content: center;
+}
 
+h2 {
+  text-align: center;
+}
 
 /*
  * Navigation

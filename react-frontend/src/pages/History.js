@@ -4,13 +4,15 @@ import Table from "../Table";
 
 function History() {
   return (
-    <div className="container">
+    <div>
       <Menu active="History" />
-      <h1>
-        ShelfMaster <strong>History</strong>
-      </h1>
-      <br />
-      <Table />
+      <div className="container">
+        <h1>
+          ShelfMaster <strong>History</strong>
+        </h1>
+        <br />
+        <Table />
+      </div>
     </div>
   );
 }

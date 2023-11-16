@@ -484,13 +484,6 @@ a {
   text-decoration: none;
 }
 
-a:hover,
-a:active,
-a:focus {
-  color: #0246a2;
-  text-decoration: underline;
-}
-
 mark {
   background: #ffeea8;
   padding: 0 0.2rem;
@@ -1812,25 +1805,17 @@ hr {
 .navbar {
   background-color: #333;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
 }
 
 /* Menu items */
 .navbar a {
   color: white;
-  margin: 0px;
-  padding: 10px;
 }
 
-/* Highlight active menu item */
-.navbar a:active {
-  font-weight: bold;
-  background-color: #6675df;
-}
-
-.navbar a:hover {
-  font-weight: bold;
-  background-color: #6675df;
-}
 /* Dropdown button */
 .dropbtn {
   background-color: #333 !important;

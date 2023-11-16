@@ -3,11 +3,13 @@ import Menu from "../components/Menu.js";
 
 function About() {
   return (
-    <div className="container">
+    <div>
       <Menu active="About" />
-      <h1>
-        About <strong>ShelfMaster</strong>
-      </h1>
+      <div className="container">
+        <h1>
+          About <strong>ShelfMaster</strong>
+        </h1>
+      </div>
     </div>
   );
 }

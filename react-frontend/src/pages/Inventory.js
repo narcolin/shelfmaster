@@ -25,15 +25,17 @@ function Inventory() {
   // </IconButton>;
 
   return (
-    <div className="container">
+    <div>
       <Menu active="Inventory" />
-      <h1>
-        ShelfMaster <strong>Inventory</strong>
-      </h1>
-      <Drawer />
-      {/* <Drawer open={drawerOpen} /> */}
-      <br />
-      <Table />
+      <div className="container">
+        <h1>
+          ShelfMaster <strong>Inventory</strong>
+        </h1>
+        <Drawer />
+        {/* <Drawer open={drawerOpen} /> */}
+        <br />
+        <Table />
+      </div>
     </div>
   );
 }

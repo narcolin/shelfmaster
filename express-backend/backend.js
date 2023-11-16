@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 
 import userServices from "./models/user-services.js";
+import inventoryServices from "./models/inventory-services.js";
+import itemServices from "./models/item-services.js";
 
 const app = express();
 const port = 8000;
@@ -45,6 +47,97 @@ app.post("/users", async (req, res) => {
 app.delete("/users/:id", async (req, res) => {
   const id = req.params["id"]; //or req.params.id
   const result = await userServices.deleteUserById(id);
+  if (result === undefined || result === null)
+    res.status(404).send("Resource not found.");
+  else {
+    res.status(204).end();
+  }
+});
+
+app.get("/inventories/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await inventoryServices.findInventoryById(id);
+  if (result === undefined || result === null)
+    res.status(404).send("Resource not found.");
+  else {
+    res.send({ inventories: result });
+  }
+});
+
+app.patch("/inventories/:id", async (req, res) => {
+  const id = req.params["id"];
+  const item = req.body;
+  const result = await inventoryServices.addItemIdToInventory(id, item._id);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).end();
+  }
+});
+
+app.delete("/inventories/:id", async (req, res) => {
+  const id = req.params["id"]; //or req.params.id
+  const result = await inventoryServices.deleteInvetoryById(id);
+  if (result === undefined || result === null)
+    res.status(404).send("Resource not found.");
+  else {
+    res.status(204).end();
+  }
+});
+
+app.get("/items/", async (req, res) => {
+  // List of all items from an inventoryId
+  const inventoryId = req.query["inventoryId"];
+  const inventory = await inventoryServices.findInventoryById(inventoryId);
+  if (inventory === undefined || inventory === null) {
+    res.status(404).send("Resource not found.");
+  } else {
+    try {
+      const itemIds = inventory.items;
+      console.log(inventory);
+      console.log(itemIds);
+      const result = await itemServices.getItems(itemIds);
+      res.send({ inventory: result });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send("An error ocurred in the server.");
+    }
+  }
+});
+
+app.get("/items/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await itemServices.findItemById(id);
+  if (result === undefined || result === null) {
+    res.status(404).send("Resource not found.");
+  } else {
+    res.send({ item: result });
+  }
+});
+
+app.post("/items/", async (req, res) => {
+  // For creating new item. Call PATCH /inventories/:id with the returned item in body
+  const item = req.body;
+  const savedItem = await itemServices.addItem(item);
+  if (savedItem) res.status(201).send(savedItem);
+  else res.status(500).end();
+});
+
+app.patch("/items/:id", async (req, res) => {
+  // For updating an item
+  const id = req.params["id"];
+  const item = req.body;
+  const result = await itemServices.updateItemById(id, item);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(500).end();
+  }
+});
+
+app.delete("/items/:id", async (req, res) => {
+  const id = req.params["id"];
+  const result = await itemServices.deleteItemById(id);
   if (result === undefined || result === null)
     res.status(404).send("Resource not found.");
   else {

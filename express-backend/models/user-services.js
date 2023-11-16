@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import userModel from "./user.js";
+import inventoryServices from "./inventory-services.js";
 
 import dotenv from "dotenv";
 
@@ -7,7 +8,7 @@ dotenv.config();
 
 // uncomment the following line to view mongoose debug messages
 mongoose.set("debug", true);
-console.log(">>mongo cluster: " + process.env.MONGO_CLUSTER);
+// console.log(">>mongo cluster: " + process.env.MONGO_CLUSTER);
 mongoose
   .connect(
     "mongodb+srv://" +
@@ -53,6 +54,11 @@ async function findUserById(id) {
 async function addUser(user) {
   try {
     const userToAdd = new userModel(user);
+    const newInventory = await inventoryServices.addInventory();
+    if (newInventory === false) {
+      throw new Error("New inventory couldn't be added.");
+    }
+    userToAdd.inventory = newInventory._id;
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {

@@ -57,7 +57,7 @@ const Menu = ({ active }) => {
           </a>
           <a
             className={active === "Give Feedback" ? "active" : ""}
-            href="/feedback"
+            href="https://forms.gle/9ScWE2BKYrrUnYVa9"
           >
             Give Feedback
           </a>

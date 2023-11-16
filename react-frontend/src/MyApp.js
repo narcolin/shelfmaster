@@ -6,6 +6,8 @@ import Inventory from "./pages/Inventory";
 import Register from "./pages/Register";
 import History from "./pages/History";
 import Recipes from "./pages/Recipes";
+import Settings from "./pages/Settings";
+import About from "./pages/About";
 import { supabase } from "./Client";
 import Loading from "./pages/Loading";
 
@@ -16,11 +18,13 @@ function MyApp() {
   const [authChecked, setAuthChecked] = useState(false);
 
   const titleMap = {
-    "/login": "Login - Shelf Master",
-    "/register": "Register - Shelf Master",
-    "/inventory": "Inventory - Shelf Master",
-    "/history": "History - Shelf Master",
-    "/recipes": "Recipes - Shelf Master",
+    "/login": "Login - ShelfMaster",
+    "/register": "Register - ShelfMaster",
+    "/inventory": "Inventory - ShelfMaster",
+    "/history": "History - ShelfMaster",
+    "/recipes": "Recipes - ShelfMaster",
+    "/settings": "Settings - ShelfMaster",
+    "/about": "About - ShelfMaster",
   };
 
   // sets token if session exists
@@ -68,6 +72,8 @@ function MyApp() {
             <Route path="/inventory" element={<Inventory />} />
             <Route path="/history" element={<History />} />
             <Route path="/recipes" element={<Recipes />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/about" element={<About />} />
           </>
         ) : (
           <>
@@ -77,6 +83,8 @@ function MyApp() {
             <Route path="/inventory" element={<Navigate to="/login" />} />
             <Route path="/history" element={<Navigate to="/login" />} />
             <Route path="/recipes" element={<Navigate to="/login" />} />
+            <Route path="/settings" element={<Navigate to="/login" />} />
+            <Route path="/about" element={<Navigate to="/login" />} />
           </>
         )
       ) : (

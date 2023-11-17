@@ -8,6 +8,7 @@ import History from "./pages/History";
 import Recipes from "./pages/Recipes";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
+import axios from "axios";
 import { supabase } from "./Client";
 import Loading from "./pages/Loading";
 
@@ -15,6 +16,8 @@ function MyApp() {
   const location = useLocation();
 
   const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [inventory, setInventory] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
 
   const titleMap = {
@@ -31,6 +34,7 @@ function MyApp() {
   async function getSession() {
     const { data } = await supabase.auth.getSession();
     setToken(data.session?.access_token);
+    setUser(data.session?.user);
   }
 
   useEffect(() => {
@@ -40,12 +44,15 @@ function MyApp() {
       switch (event) {
         case "SIGNED_IN":
           setToken(session.access_token);
+          setUser(session.user);
           break;
         case "SIGNED_OUT":
           setToken(null);
+          setUser(null);
           break;
         default:
           setToken(null);
+          setUser(null);
           break;
       }
     });
@@ -60,6 +67,42 @@ function MyApp() {
   useEffect(() => {
     document.title = titleMap[location.pathname] || "Shelf Master";
   }, [location.pathname]);
+
+  // Get user information from database
+  async function getUser() {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/users/${user.id}`,
+      );
+      return response.data.users_list;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  // Get inventory information from database
+  async function getItems(inventory_id) {
+    try {
+      const items = await axios.get(
+        `http://localhost:8000/items?inventoryId=${inventory_id}`,
+      );
+      return items.data.inventory;
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
+  // If supabase user is there, get the database user information to get all items
+  useEffect(() => {
+    getUser().then((result) => {
+      if (result) {
+        setInventory(getItems(result.inventory));
+        console.log(inventory);
+      }
+    });
+  }, [user]);
 
   return (
     <Routes>

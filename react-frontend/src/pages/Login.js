@@ -34,6 +34,7 @@ function Login() {
       // if remember me, stores in local storage
       if (document.getElementById("ckb1").checked) {
         localStorage.setItem("token", data.session.access_token);
+        localStorage.setItem("user", data.session.user);
       }
     } catch (error) {
       switch (error.message) {

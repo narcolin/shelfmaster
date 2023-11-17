@@ -7,6 +7,7 @@ function Home() {
       <Menu active="Home" />
       <div className="container">
         <h1>
+          <br />
           Welcome to <br />
           <strong>ShelfMaster</strong>
         </h1>

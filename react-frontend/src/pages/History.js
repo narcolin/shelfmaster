@@ -8,6 +8,7 @@ function History() {
       <Menu active="History" />
       <div className="container">
         <h1>
+          <br />
           ShelfMaster <strong>History</strong>
         </h1>
         <br />

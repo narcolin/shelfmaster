@@ -6,7 +6,7 @@ import InventoryDrawer from "../components/InventoryDrawer.js";
 import IconButton from "@mui/icons-material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 
-function Inventory() {
+function Inventory(props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
@@ -32,7 +32,7 @@ function Inventory() {
         <InventoryDrawer />
         {/* <Drawer open={drawerOpen} /> */}
         <br />
-        <Table />
+        <Table inventoryData={props.inventoryData} />
       </div>
     </div>
   );

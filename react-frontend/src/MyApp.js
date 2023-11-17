@@ -99,7 +99,6 @@ function MyApp() {
     getUser().then((result) => {
       if (result) {
         setInventory(getItems(result.inventory));
-        console.log(inventory);
       }
     });
   }, [user]);
@@ -112,7 +111,10 @@ function MyApp() {
             <Route path="/" element={<Home />} exact />
             <Route path="/login" element={<Navigate to="/inventory" />} />
             <Route path="/register" element={<Navigate to="/inventory" />} />
-            <Route path="/inventory" element={<Inventory />} />
+            <Route
+              path="/inventory"
+              element={<Inventory inventoryData={inventory} />}
+            />
             <Route path="/history" element={<History />} />
             <Route path="/recipes" element={<Recipes />} />
             <Route path="/settings" element={<Settings />} />

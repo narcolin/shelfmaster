@@ -7,6 +7,7 @@ function Inventory() {
     <div>
       <div className="container">
         <h1>
+          <br />
           ShelfMaster <strong>Inventory</strong>
         </h1>
         <InventoryDrawer />

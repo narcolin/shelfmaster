@@ -7,6 +7,7 @@ function Recipes() {
       <Menu active="Recipes" />
       <div className="container">
         <h1>
+          <br />
           ShelfMaster <strong>Recipes</strong>
         </h1>
       </div>

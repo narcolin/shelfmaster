@@ -20,6 +20,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
+import AccountSettings from "./AccountSettings";
 
 const drawerWidth = 240;
 
@@ -91,7 +92,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+export default function InventoryDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [filters, setFilters] = useState({
@@ -219,6 +220,7 @@ export default function MiniDrawer() {
           ))}
         </List>
         <Divider />
+        <AccountSettings />
       </Drawer>
     </Box>
   );

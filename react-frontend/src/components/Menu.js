@@ -54,8 +54,8 @@ const Menu = ({ active }) => {
             </a>
           </div>
         </div>
+        <button onClick={() => handleLogout()}>Logout</button>
       </div>
-      <button onClick={() => handleLogout()}>Logout</button>
     </div>
   );
 };

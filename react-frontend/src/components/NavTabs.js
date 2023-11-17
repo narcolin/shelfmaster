@@ -35,6 +35,7 @@ function LinkTab(props) {
         }
       }}
       {...props}
+      textColor="white"
     />
   );
 }
@@ -67,7 +68,15 @@ export default function NavTabs() {
         marginRight: 3,
       }}
     >
-      <Tabs value={value} onChange={handleChange}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        TabIndicatorProps={{
+          style: {
+            backgroundColor: "#6675df",
+          },
+        }}
+      >
         {pages.map((page, index) => (
           <LinkTab
             key={index}
@@ -76,6 +85,10 @@ export default function NavTabs() {
             sx={{
               marginLeft: 2,
               marginRight: 2,
+              "&:hover": {
+                backgroundColor: "#6675df",
+              },
+              borderRadius: "8px",
             }}
           />
         ))}

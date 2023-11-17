@@ -1,8 +1,7 @@
 import React from "react";
 //import React, { useState } from "react";
 import Table from "../Table";
-import Drawer from "../Drawer";
-import Menu from "../components/Menu.js";
+import InventoryDrawer from "../components/InventoryDrawer.js";
 
 // import IconButton from "@mui/icons-material/IconButton";
 // import MenuIcon from "@mui/icons-material/Menu";
@@ -26,12 +25,11 @@ function Inventory() {
 
   return (
     <div>
-      <Menu active="Inventory" />
       <div className="container">
         <h1>
           ShelfMaster <strong>Inventory</strong>
         </h1>
-        <Drawer />
+        <InventoryDrawer />
         {/* <Drawer open={drawerOpen} /> */}
         <br />
         <Table />

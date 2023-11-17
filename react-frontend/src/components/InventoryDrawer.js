@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -18,6 +18,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
+import logo from "../images/logo.png";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -92,48 +94,96 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [filters, setFilters] = useState({
+    Grains: false,
+    Fruits: false,
+    Vegetables: false,
+    Proteins: false,
+    Dairy: false,
+    Beverages: false,
+    Miscellaneous: false,
+  });
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    const button = document.activeElement;
+    if (button instanceof HTMLElement) {
+      button.blur();
+    }
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    const button = document.activeElement;
+    if (button instanceof HTMLElement) {
+      button.blur();
+    }
   };
+
+  function handleFilterToggle(text) {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [text]: !prevFilters[text],
+    }));
+    console.log(filters);
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
           {/* <Typography variant="h6" noWrap component="div">
             Mini variant drawer
           </Typography> */}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
+        <DrawerHeader sx={{ backgroundColor: "#404040" }}>
+          {open ? (
+            <div>
+              <Link to="/">
+                <img
+                  className="logoimg mr5"
+                  src={logo}
+                  width={180}
+                  height={27}
+                  style={{ marginRight: 15 }}
+                ></img>
+              </Link>
+              <IconButton
+                onClick={handleDrawerClose}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#9e9e9e",
+                  },
+                  color: "white",
+                }}
+              >
+                {theme.direction === "rtl" ? (
+                  <ChevronRightIcon color="inherit" />
+                ) : (
+                  <ChevronLeftIcon color="inherit" />
+                )}
+              </IconButton>
+            </div>
+          ) : (
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                "&:hover": {
+                  backgroundColor: "#9e9e9e",
+                },
+                color: "white",
+              }}
+            >
+              <MenuIcon color="inherit" />
+            </IconButton>
+          )}
         </DrawerHeader>
-        <Divider />
         <List>
           {[
             "Grains",
@@ -150,7 +200,9 @@ export default function MiniDrawer() {
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
+                  backgroundColor: filters[text] ? "#e0e0e0" : "transparent",
                 }}
+                onClick={() => handleFilterToggle(text)}
               >
                 <ListItemIcon
                   sx={{

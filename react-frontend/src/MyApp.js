@@ -17,7 +17,8 @@ function MyApp() {
 
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [inventory, setInventory] = useState(null);
+  const [shelf_user, setShelfUser] = useState(null);
+  const [inventory, setInventory] = useState([]);
   const [authChecked, setAuthChecked] = useState(false);
 
   const titleMap = {
@@ -68,40 +69,41 @@ function MyApp() {
     document.title = titleMap[location.pathname] || "Shelf Master";
   }, [location.pathname]);
 
-  // Get user information from database
-  async function getUser() {
-    try {
-      const response = await axios.get(
-        `http://localhost:8000/users/${user.id}`,
-      );
-      return response.data.users_list;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
-  // Get inventory information from database
-  async function getItems(inventory_id) {
-    try {
-      const items = await axios.get(
-        `http://localhost:8000/items?inventoryId=${inventory_id}`,
-      );
-      return items.data.inventory;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  }
-
-  // If supabase user is there, get the database user information to get all items
   useEffect(() => {
-    getUser().then((result) => {
-      if (result) {
-        setInventory(getItems(result.inventory));
+    async function getShelfUser() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/users/${user.id}`,
+        );
+        setShelfUser(response.data.users_list);
+      } catch (error) {
+        console.log(error);
+        return false;
       }
-    });
+    }
+
+    if (user !== null) {
+      getShelfUser();
+    }
   }, [user]);
+
+  useEffect(() => {
+    async function getItems(inventory_id) {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/items?inventoryId=${inventory_id}`,
+        );
+        setInventory(response.data.inventory);
+      } catch (error) {
+        console.log(error);
+        return false;
+      }
+    }
+
+    if (shelf_user !== null) {
+      getItems(shelf_user.inventory);
+    }
+  }, [shelf_user]);
 
   return (
     <Routes>

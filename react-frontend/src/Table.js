@@ -33,15 +33,15 @@ import {
 //   return randomArrayItem(roles);
 // };
 
-const initialRows = [
-  {
-    id: randomId(),
-    food: "",
-    Quantity: "",
-    DatePurchased: "",
-    role: "",
-  },
-];
+// const initialRows = [
+//   {
+//     id: randomId(),
+//     food: "",
+//     Quantity: "",
+//     DatePurchased: "",
+//     role: "",
+//   },
+// ];
 
 function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
@@ -68,8 +68,18 @@ function EditToolbar(props) {
 }
 
 export default function Table(props) {
-  console.log(props);
-  const [rows, setRows] = React.useState(initialRows);
+  // const [rows, setRows] = React.useState(initialRows);
+  const [rows, setRows] = React.useState(
+    props.inventoryData.map((item) => {
+      return {
+        id: item._id,
+        food: item.name,
+        Quantity: item.quantity,
+        role: item.food_type,
+      };
+    }),
+  );
+
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   const handleRowEditStop = (params, event) => {

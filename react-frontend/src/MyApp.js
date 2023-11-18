@@ -20,6 +20,7 @@ function MyApp() {
   const [shelf_user, setShelfUser] = useState(null);
   const [inventory, setInventory] = useState([]);
   const [authChecked, setAuthChecked] = useState(false);
+  let dbChecked;
 
   const titleMap = {
     "/login": "Login - ShelfMaster",
@@ -38,6 +39,25 @@ function MyApp() {
     setUser(data.session?.user);
   }
 
+  async function getUserById(id) {
+    try {
+      const response = await axios.get(`http://localhost:8000/users/${id}`);
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async function addUser(id) {
+    try {
+      await axios.post("http://localhost:8000/users", {
+        _id: id,
+      });
+    } catch (error) {
+      // empty
+    }
+  }
+
   useEffect(() => {
     getSession();
     // updates token if sign in/out for rerender
@@ -46,10 +66,21 @@ function MyApp() {
         case "SIGNED_IN":
           setToken(session.access_token);
           setUser(session.user);
+          // adds user to database if not already in (for social logins)
+          if (session.provider_token && !dbChecked) {
+            (async () => {
+              const userData = await getUserById(session.user.id);
+              if (!userData) {
+                await addUser(session.user.id);
+              }
+            })();
+          }
+          dbChecked = true;
           break;
         case "SIGNED_OUT":
           setToken(null);
           setUser(null);
+          dbChecked = false;
           break;
         default:
           setToken(null);
@@ -73,7 +104,7 @@ function MyApp() {
     async function getShelfUser() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/users/${user.id}`,
+          `http://localhost:8000/users/${user?.id}`,
         );
         setShelfUser(response.data.users_list);
       } catch (error) {

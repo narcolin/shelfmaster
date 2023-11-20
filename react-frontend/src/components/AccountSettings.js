@@ -9,6 +9,8 @@ import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../Client";
 
 export default function AccountSettings() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -19,8 +21,15 @@ export default function AccountSettings() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  let navigate = useNavigate();
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    navigate("/");
+  }
   return (
-    <Box sx={{ paddingLeft: 1.5, marginTop: 35 }}>
+    <Box sx={{ paddingLeft: 1.5, marginTop: 32 }}>
       <Tooltip title="Account settings">
         <IconButton onClick={handleClick} size="small">
           <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
@@ -62,7 +71,7 @@ export default function AccountSettings() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={() => handleLogout()}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

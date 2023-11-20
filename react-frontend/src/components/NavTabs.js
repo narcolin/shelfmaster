@@ -86,7 +86,8 @@ export default function NavTabs() {
               marginLeft: 2,
               marginRight: 2,
               "&:hover": {
-                backgroundColor: "#6675df",
+                backgroundColor:
+                  page.href === location.pathname ? "inherit" : "#6675df",
               },
               borderRadius: "8px",
             }}

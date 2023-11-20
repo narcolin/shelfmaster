@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-//import MuiAppBar from "@mui/material/AppBar";
+import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-//import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -18,9 +17,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import logo from "../images/logo.png";
 import { Link } from "react-router-dom";
 import AccountSettings from "./AccountSettings";
+import CheckIcon from "@mui/icons-material/Check";
+import { Tooltip } from "@mui/material";
+import logo from "../images/logo.png";
 
 const drawerWidth = 240;
 
@@ -55,16 +56,17 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 //need to fix app bar display (drawer menu button)
-const AppBar = styled("div", {
+const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  //marginLeft: drawerWidth,
-  width: `calc(${drawerWidth}px)`,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  height: "84px",
+  backgroundColor: "#333",
+  justifyContent: "center",
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -133,27 +135,16 @@ export default function InventoryDrawer() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
-          {/* <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography> */}
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader sx={{ backgroundColor: "#404040" }}>
+        <Toolbar sx={{ paddingLeft: open ? "10px !important" : "" }}>
           {open ? (
-            <div>
-              <Link to="/">
-                <img
-                  className="logoimg mr5"
-                  src={logo}
-                  width={180}
-                  height={27}
-                  style={{ marginRight: 15 }}
-                ></img>
-              </Link>
+            <></>
+          ) : (
+            <Tooltip title="Expand">
               <IconButton
-                onClick={handleDrawerClose}
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                edge="start"
                 sx={{
                   "&:hover": {
                     backgroundColor: "#9e9e9e",
@@ -161,30 +152,46 @@ export default function InventoryDrawer() {
                   color: "white",
                 }}
               >
-                {theme.direction === "rtl" ? (
-                  <ChevronRightIcon color="inherit" />
-                ) : (
-                  <ChevronLeftIcon color="inherit" />
-                )}
+                <MenuIcon color="inherit" />
               </IconButton>
+            </Tooltip>
+          )}
+          <Link to="/">
+            {" "}
+            <img className="logoimg" src={logo} width={250} height={37}></img>
+          </Link>
+        </Toolbar>
+      </AppBar>
+      <Drawer variant="permanent" open={open}>
+        <DrawerHeader sx={{ minHeight: "84px !important" }}>
+          {open ? (
+            <div>
+              <Link to="/">
+                <a>return?</a>
+              </Link>
+              <Tooltip title="Collapse">
+                <IconButton
+                  onClick={handleDrawerClose}
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#e0e0e0",
+                    },
+                    color: "#757575",
+                  }}
+                >
+                  {theme.direction === "rtl" ? (
+                    <ChevronRightIcon color="inherit" />
+                  ) : (
+                    <ChevronLeftIcon color="inherit" />
+                  )}
+                </IconButton>
+              </Tooltip>
             </div>
           ) : (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{
-                "&:hover": {
-                  backgroundColor: "#9e9e9e",
-                },
-                color: "white",
-              }}
-            >
-              <MenuIcon color="inherit" />
-            </IconButton>
+            <></>
           )}
         </DrawerHeader>
+        <Divider />
         <List>
           {[
             "Grains",
@@ -193,7 +200,7 @@ export default function InventoryDrawer() {
             "Proteins",
             "Dairy",
             "Beverages",
-            "Miscelaneous",
+            "Miscellaneous",
           ].map((text, index) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
@@ -215,6 +222,13 @@ export default function InventoryDrawer() {
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                {open && filters[text] ? (
+                  <>
+                    <CheckIcon sx={{ color: "#757575" }} />
+                  </>
+                ) : (
+                  <></>
+                )}
               </ListItemButton>
             </ListItem>
           ))}

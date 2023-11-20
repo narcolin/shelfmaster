@@ -1,6 +1,6 @@
 // import { Link } from "react-router-dom";
 import Menu from "../components/Menu.js";
-import Table from "../Table";
+import Table from "../components/Table.js";
 
 function History() {
   return (

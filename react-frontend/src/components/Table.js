@@ -211,8 +211,11 @@ export default function Table(props) {
   return (
     <Box
       sx={{
-        height: 500,
-        width: "100%",
+        position: "absolute",
+        left: 65,
+        top: 84,
+        height: window.innerHeight - 84,
+        width: window.innerWidth - 65,
         "& .actions": {
           color: "text.secondary",
         },

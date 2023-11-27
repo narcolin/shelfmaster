@@ -16,7 +16,7 @@ import { styled } from "@mui/material/styles";
 const Label = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
-  padding: theme.spacing(0.5),
+  padding: theme.spacing(1),
   textAlign: "center",
   color: theme.palette.text.secondary,
   borderBottomLeftRadius: 0,
@@ -29,8 +29,8 @@ const Description = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: "left",
   color: theme.palette.text.secondary,
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
+  borderBottomLeftRadius: 4,
+  borderBottomRightRadius: 4,
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -118,8 +118,6 @@ export default function FullScreenDialog() {
                   alt={recommendations.title}
                   loading="lazy"
                   style={{
-                    borderBottomLeftRadius: 4,
-                    borderBottomRightRadius: 4,
                     display: "block",
                     width: "100%",
                   }}

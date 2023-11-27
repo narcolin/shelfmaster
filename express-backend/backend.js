@@ -4,6 +4,7 @@ import cors from "cors";
 import userServices from "./models/user-services.js";
 import inventoryServices from "./models/inventory-services.js";
 import itemServices from "./models/item-services.js";
+import { router as recipe_router} from "./recipes.js";
 
 const app = express();
 const port = 8000;
@@ -14,6 +15,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use('/recipes', recipe_router);
 
 app.get("/users", async (req, res) => {
   const id = req.query["id"];

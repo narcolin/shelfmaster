@@ -22,6 +22,7 @@ import AccountSettings from "./AccountSettings";
 import CheckIcon from "@mui/icons-material/Check";
 import { Tooltip } from "@mui/material";
 import logo from "../images/logo.png";
+import Recipes from "../pages/Recipes.js";
 
 const drawerWidth = 240;
 
@@ -160,6 +161,7 @@ export default function InventoryDrawer() {
             {" "}
             <img className="logoimg" src={logo} width={250} height={37}></img>
           </Link>
+          <Recipes />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

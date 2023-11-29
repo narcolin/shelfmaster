@@ -1829,6 +1829,10 @@ h2 {
   text-align: center;
 }
 
+.specific-recipe:hover {
+  filter: grayscale(80%);
+}
+
 /*
  * Navigation
  */

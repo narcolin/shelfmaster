@@ -68,6 +68,7 @@
     "vary": "^1.1.2"
   },
   "scripts": {
+    "coverage": "jest --collectCoverage --forceExit",
     "test": "prettier --check .",
     "dev": "nodemon backend.js",
     "start": "node backend.js",

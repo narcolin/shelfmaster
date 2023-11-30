@@ -24,7 +24,7 @@ mongoose
     {
       useNewUrlParser: true, //useFindAndModify: false,
       useUnifiedTopology: true,
-    }
+    },
   )
   .catch((error) => console.log(error));
 

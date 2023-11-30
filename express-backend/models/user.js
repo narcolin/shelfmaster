@@ -21,7 +21,7 @@ const UserSchema = new Schema(
       ref: "Inventory",
     },
   },
-  { collection: "users_list" }
+  { collection: "users_list" },
 );
 
 export default mongoose.model("User", UserSchema);

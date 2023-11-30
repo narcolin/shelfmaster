@@ -29,7 +29,7 @@ async function addItemIdToInventory(id, item_id) {
         $push: {
           items: item_id,
         },
-      }
+      },
     );
   } catch (error) {
     console.log(error);

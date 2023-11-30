@@ -60,7 +60,7 @@ const ItemSchema = new Schema(
       trim: true,
     },
   },
-  { collection: "items" }
+  { collection: "items" },
 );
 
 export default mongoose.model("Item", ItemSchema);

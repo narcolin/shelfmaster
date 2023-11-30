@@ -4,7 +4,7 @@ import cors from "cors";
 import userServices from "./models/user-services.js";
 import inventoryServices from "./models/inventory-services.js";
 import itemServices from "./models/item-services.js";
-import { router as recipe_router } from "./recipes.js";
+import { router as recipe_router } from "./models/recipes.js";
 
 const app = express();
 const port = 8000;
@@ -149,5 +149,5 @@ app.delete("/items/:id", async (req, res) => {
 });
 
 app.listen(process.env.PORT || port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`REST API is listening.`);
 });

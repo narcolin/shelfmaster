@@ -8,7 +8,6 @@ const pages = [
   { label: "Home", href: "/" },
   { label: "Inventory", href: "/inventory" },
   { label: "History", href: "/history" },
-  { label: "Recipes", href: "/recipes" },
 ];
 
 function samePageLinkNavigation(event) {

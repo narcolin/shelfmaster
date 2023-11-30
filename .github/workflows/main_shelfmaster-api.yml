@@ -32,7 +32,7 @@ jobs:
           npm run build --if-present
           npm run test --if-present
           npm run coverage --if-present
-        working-directory: express-backend
+        working-directory: ./express-backend
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3

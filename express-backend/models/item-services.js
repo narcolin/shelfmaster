@@ -86,7 +86,7 @@ async function updateItemById(id, item) {
           },
         },
       },
-      { upsert: true, runValidators: true },
+      { upsert: true, runValidators: true }
     );
   } catch (error) {
     console.log(error);

@@ -5,7 +5,7 @@ const InventorySchema = new Schema(
   {
     items: [{ type: Schema.Types.ObjectId, ref: "Item" }],
   },
-  { collection: "inventories" },
+  { collection: "inventories" }
 );
 
 export default mongoose.model("Inventory", InventorySchema);

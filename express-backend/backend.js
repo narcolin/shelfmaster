@@ -7,6 +7,7 @@ import itemServices from "./models/item-services.js";
 import { router as recipe_router } from "./models/recipes.js";
 
 const app = express();
+const APP_VERSION = "1.0.0";
 const port = 8000;
 
 app.use(cors());
@@ -149,5 +150,13 @@ app.delete("/items/:id", async (req, res) => {
 });
 
 app.listen(process.env.PORT || port, () => {
-  console.log(`REST API is listening.`);
+  if (process.env.PORT) {
+    console.log(
+      `REST API Version ${APP_VERSION} is listening with process.env.PORT on port: ${process.env.PORT}.`,
+    );
+  } else {
+    console.log(
+      `REST API Version ${APP_VERSION} is listening on port: ${port}.`,
+    );
+  }
 });

@@ -41,7 +41,7 @@ jobs:
           npm run coverage --if-present
 
       - name: Zip artifact for development job
-        run: zip release.zip ./* -r
+        run: Compress-Archive -Path * -DestinationPath release.zip
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -50,7 +50,7 @@ jobs:
           path: express-backend/release.zip
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'

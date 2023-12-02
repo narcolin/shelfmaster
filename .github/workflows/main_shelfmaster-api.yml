@@ -50,7 +50,7 @@ jobs:
           path: express-backend/release.zip
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
@@ -63,8 +63,7 @@ jobs:
           name: node-app
 
       - name: unzip artifact for deployment
-        run: unzip release.zip
-        working-directory: .
+        run: Expand-Archive -Path release.zip -DestinationPath .
       
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2

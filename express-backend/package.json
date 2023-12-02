@@ -72,7 +72,7 @@
   },
   "scripts": {
     "coverage": "jest --collectCoverage --forceExit --passWithNoTests",
-    "test": "prettier --check . && cross-env NODE_OPTIONS=--experimental-vm-modules jest --forceExit",
+    "test": "prettier --check . && cross-env NODE_OPTIONS=--experimental-vm-modules jest --forceExit --detectOpenHandles",
     "dev": "nodemon backend.js",
     "start": "node backend.js",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"

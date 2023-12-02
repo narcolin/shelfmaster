@@ -74,15 +74,19 @@ describe("Connection", () => {
     expect(result).toBeFalsy();
   });
 
-  //   test("add item negative quantity -- will fail", async () => {
-  //     const item = {
-  //       name: "test-item",
-  //       quantity: -1,
-  //     };
-  //     const result = await itemServices.addItem(item);
+  test("add item negative quantity -- will fail", async () => {
+    const item = {
+      name: "test-item",
+      quantity: -1,
+    };
 
-  //     expect(result).toBeFalsy();
-  //   });
+    try {
+      await itemServices.addItem(item);
+    } catch (error) {
+      console.log(error);
+      expect(error.toString()).toMatch("ValidationError");
+    }
+  });
 
   test("most recent 30 logs items", async () => {
     const item = {

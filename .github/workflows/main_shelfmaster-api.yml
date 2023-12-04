@@ -9,6 +9,13 @@ on:
       - main
   workflow_dispatch:
 
+defaults:
+  run:
+    working-directory: express-backend
+
+env:
+  AZURE_WEBAPP_PACKAGE_PATH: express-backend
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +29,11 @@ jobs:
           node-version: '18.x'
 
       - name: npm install, build, and test
+        env:
+          MONGO_DB: ${{ secrets.MONGO_DB }}
+          MONGO_USER: ${{ secrets.MONGO_USER }}
+          MONGO_PWD: ${{ secrets.MONGO_PWD }}
+          MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
         run: |
           npm install
           npm run build --if-present
@@ -34,7 +46,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: node-app
-          path: release.zip
+          path: express-backend/release.zip
 
   deploy:
     runs-on: ubuntu-latest
@@ -51,6 +63,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+        working-directory: .
       
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp

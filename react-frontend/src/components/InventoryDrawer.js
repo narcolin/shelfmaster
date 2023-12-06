@@ -136,31 +136,38 @@ export default function InventoryDrawer() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar sx={{ paddingLeft: open ? "10px !important" : "" }}>
-          {open ? (
-            <></>
-          ) : (
-            <Tooltip title="Expand">
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                sx={{
-                  "&:hover": {
-                    backgroundColor: "#9e9e9e",
-                  },
-                  color: "white",
-                }}
-              >
-                <MenuIcon color="inherit" />
-              </IconButton>
-            </Tooltip>
-          )}
-          <Link to="/">
-            {" "}
-            <img className="logoimg" src={logo} width={250} height={37}></img>
-          </Link>
+        <Toolbar
+          sx={{
+            justifyContent: "space-between",
+            paddingLeft: open ? "10px !important" : "",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {open ? (
+              <></>
+            ) : (
+              <Tooltip title="Expand">
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerOpen}
+                  edge="start"
+                  sx={{
+                    "&:hover": {
+                      backgroundColor: "#9e9e9e",
+                    },
+                    color: "white",
+                  }}
+                >
+                  <MenuIcon color="inherit" />
+                </IconButton>
+              </Tooltip>
+            )}
+            <Link to="/">
+              {" "}
+              <img className="logoimg" src={logo} width={250} height={37}></img>
+            </Link>
+          </div>
           <Recipes />
         </Toolbar>
       </AppBar>

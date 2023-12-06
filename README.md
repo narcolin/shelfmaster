@@ -1,7 +1,7 @@
 # Shelfmaster
 
-![backendCI](https://github.com/narcolin/shelfmaster/actions/workflows/node.js.yml/badge.svg)
-![frontendCI](https://github.com/narcolin/shelfmaster/actions/workflows/react-frontend-ci.yml/badge.svg)
+[![backendCI](https://github.com/narcolin/shelfmaster/actions/workflows/node.js.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/node.js.yml)
+[![frontendCI](https://github.com/narcolin/shelfmaster/actions/workflows/react-frontend-ci.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/react-frontend-ci.yml)
 
 [![Build and deploy Node.js app to Azure Web App - shelfmaster-api](https://github.com/narcolin/shelfmaster/actions/workflows/main_shelfmaster-api.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/main_shelfmaster-api.yml)
 

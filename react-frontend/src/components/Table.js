@@ -109,8 +109,7 @@ function EditToolbar(props) {
 }
 
 export default function Table(props) {
-  // const [rows, setRows] = React.useState(initialRows);
-  const inventory = props.user.inventory;
+  const inventory = props.user ? props.user.inventory : null;
   const filters = props.filters;
   const [rows, setRows] = React.useState(
     props.inventoryData.map((item) => {
@@ -129,10 +128,22 @@ export default function Table(props) {
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
+  const { setSelectedIngredients } = props;
+
   const [sortModel, setSortModel] = React.useState([
     { field: "name", sort: "asc" },
   ]);
 
+  const [selectedRows, setSelectedRows] = React.useState([]);
+
+  const handleSelectionModelChange = (selectionModel) => {
+    const selectedIngredients = selectionModel.map((selectedId) => {
+      const selectedRow = rows.find((row) => row.id === selectedId);
+      return selectedRow ? selectedRow.name : "";
+    });
+    setSelectedIngredients(selectedIngredients);
+    setSelectedRows(selectionModel);
+  };
   const handleSortModelChange = (newSortModel) => {
     setSortModel(newSortModel);
   };
@@ -185,6 +196,12 @@ export default function Table(props) {
   };
 
   const columns = [
+    {
+      field: "selection",
+      headerName: "",
+      type: "checkbox",
+      width: 50,
+    },
     { field: "name", headerName: "Food", width: 240, editable: true },
     {
       field: "quantity",
@@ -194,13 +211,7 @@ export default function Table(props) {
       align: "left",
       headerAlign: "left",
       editable: true,
-    },
-    {
-      field: "DatePurchased",
-      headerName: "Date Purchased",
-      type: "date",
-      width: 180,
-      editable: true,
+      flex: 1,
     },
     {
       field: "food_type",
@@ -217,6 +228,7 @@ export default function Table(props) {
         "Beverages",
         "Miscellaneous",
       ],
+      flex: 1,
     },
     {
       field: "actions",
@@ -224,6 +236,7 @@ export default function Table(props) {
       headerName: "Actions",
       width: 100,
       cellClassName: "actions",
+      flex: 1,
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -296,6 +309,9 @@ export default function Table(props) {
         processRowUpdate={processRowUpdate}
         sortModel={sortModel}
         onSortModelChange={handleSortModelChange}
+        checkboxSelection
+        onRowSelectionModelChange={handleSelectionModelChange}
+        selectionModel={selectedRows}
         slots={{
           toolbar: EditToolbar,
         }}

@@ -104,6 +104,7 @@ export default function InventoryDrawer(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const filters = props.filters;
+  const selectedIngredients = props.selectedIngredients;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -221,7 +222,7 @@ export default function InventoryDrawer(props) {
               <img className="logoimg" src={logo} width={250} height={37}></img>
             </Link>
           </div>
-          <Recipes />
+          <Recipes selectedIngredients={selectedIngredients} />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

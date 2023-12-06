@@ -124,6 +124,14 @@ export default function Table(props) {
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
+  const [sortModel, setSortModel] = React.useState([
+    { field: "name", sort: "asc" },
+  ]);
+
+  const handleSortModelChange = (newSortModel) => {
+    setSortModel(newSortModel);
+  };
+
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -281,6 +289,8 @@ export default function Table(props) {
         onRowModesModelChange={handleRowModesModelChange}
         onRowEditStop={handleRowEditStop}
         processRowUpdate={processRowUpdate}
+        sortModel={sortModel}
+        onSortModelChange={handleSortModelChange}
         slots={{
           toolbar: EditToolbar,
         }}

@@ -22,6 +22,9 @@ async function addInventory() {
 }
 
 async function addItemIdToInventory(id, item_id) {
+  console.log("testing");
+  console.log(id);
+  console.log(item_id);
   try {
     return await inventoryModel.updateOne(
       { _id: id },

@@ -7,7 +7,7 @@ function Inventory(props) {
     <div>
       <div className="container">
         <InventoryDrawer />
-        <Table inventoryData={props.inventoryData} />
+        <Table inventoryData={props.inventoryData} user={props.user} />
       </div>
     </div>
   );

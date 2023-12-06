@@ -176,7 +176,7 @@ export default function InventoryDrawer() {
           {open ? (
             <div>
               <Link to="/">
-                <a>return?</a>
+                <a>Return?</a>
               </Link>
               <Tooltip title="Collapse">
                 <IconButton

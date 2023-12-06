@@ -69,9 +69,11 @@ app.get("/inventories/:id", async (req, res) => {
 });
 
 app.patch("/inventories/:id", async (req, res) => {
+  console.log("test1");
+  console.log(req.body.data);
   const id = req.params["id"];
-  const item = req.body;
-  const result = await inventoryServices.addItemIdToInventory(id, item._id);
+  const item_id = req.body.data;
+  const result = await inventoryServices.addItemIdToInventory(id, item_id);
   if (result) {
     res.status(200).send(result);
   } else {
@@ -129,6 +131,8 @@ app.post("/items/", async (req, res) => {
 
 app.patch("/items/:id", async (req, res) => {
   // For updating an item
+  console.log("test2");
+  console.log(req.body);
   const id = req.params["id"];
   const item = req.body;
   const result = await itemServices.updateItemById(id, item);

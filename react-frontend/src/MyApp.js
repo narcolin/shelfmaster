@@ -142,7 +142,9 @@ function MyApp() {
             <Route path="/register" element={<Navigate to="/inventory" />} />
             <Route
               path="/inventory"
-              element={<Inventory inventoryData={inventory} />}
+              element={
+                <Inventory inventoryData={inventory} user={shelf_user} />
+              }
             />
             <Route path="/settings" element={<Settings />} />
             <Route path="/about" element={<About />} />

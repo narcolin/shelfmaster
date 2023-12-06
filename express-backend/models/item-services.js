@@ -65,7 +65,7 @@ async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
   try {
-    if (item.quantity && item.quantity != 0) {
+    if (item.quantity && item.quantity !== 0) {
       return await itemModel.updateOne(
         { _id: id },
         {

@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import axios from "axios";
+import { v4 as uuidv4 } from "uuid";
+
 import {
   GridRowModes,
   DataGrid,
@@ -13,12 +16,10 @@ import {
   GridActionsCellItem,
   GridRowEditStopReasons,
 } from "@mui/x-data-grid";
-import {
-  // randomCreatedDate,
-  // randomTraderName,
-  randomId,
-  // randomArrayItem,
-} from "@mui/x-data-grid-generator";
+import // randomCreatedDate,
+// randomTraderName,
+// randomArrayItem,
+"@mui/x-data-grid-generator";
 
 // const roles = [
 //   "Grains",
@@ -43,14 +44,54 @@ import {
 //   },
 // ];
 
+async function updateItem(id, item) {
+  console.log(id);
+  console.log(item);
+  try {
+    const response = await axios.patch(
+      `http://localhost:8000/items/${id}`,
+      item,
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+async function addItem(inventory, item) {
+  console.log("Adding");
+  console.log(inventory);
+  console.log(item);
+  try {
+    const response = await axios.patch(
+      `http://localhost:8000/inventories/${inventory}`,
+      { data: item },
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
+
+// async function removeItem(id) {
+//   try {
+//     const response = await axios.get(`http://localhost:8000/users/${id}`);
+//     return response.data;
+//   } catch (error) {
+//     return null;
+//   }
+// }
 function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, inventory } = props;
 
   const handleClick = () => {
-    const id = randomId();
+    const id = uuidv4()
+      .replace(/-/g, "")
+      .match(/[a-f\d]{24}/)[0];
+    addItem(inventory, id);
     setRows((oldRows) => [
       ...oldRows,
-      { id, food: "", Quantity: "", isNew: true },
+      { id, name: "", quantity: "", isNew: true },
     ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -69,13 +110,14 @@ function EditToolbar(props) {
 
 export default function Table(props) {
   // const [rows, setRows] = React.useState(initialRows);
+  const inventory = props.user.inventory;
   const [rows, setRows] = React.useState(
     props.inventoryData.map((item) => {
       return {
         id: item._id,
-        food: item.name,
-        Quantity: item.quantity,
-        role: item.food_type,
+        name: item.name,
+        quantity: item.quantity,
+        food_type: item.food_type,
       };
     }),
   );
@@ -112,9 +154,15 @@ export default function Table(props) {
     }
   };
 
-  const processRowUpdate = (newRow) => {
+  const processRowUpdate = async (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+    try {
+      await updateItem(updatedRow.id, updatedRow);
+    } catch (error) {
+      console.error("Error updating item:", error);
+    }
     return updatedRow;
   };
 
@@ -123,9 +171,9 @@ export default function Table(props) {
   };
 
   const columns = [
-    { field: "food", headerName: "Food", width: 240, editable: true },
+    { field: "name", headerName: "Food", width: 240, editable: true },
     {
-      field: "Quantity",
+      field: "quantity",
       headerName: "Quantity",
       type: "number",
       width: 80,
@@ -141,7 +189,7 @@ export default function Table(props) {
       editable: true,
     },
     {
-      field: "role",
+      field: "food_type",
       headerName: "Food Group",
       width: 220,
       editable: true,
@@ -153,7 +201,7 @@ export default function Table(props) {
         "Proteins",
         "Dairy",
         "Beverages",
-        "Miscelaneous",
+        "Miscellaneous",
       ],
     },
     {
@@ -236,7 +284,7 @@ export default function Table(props) {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, inventory },
         }}
       />
     </Box>

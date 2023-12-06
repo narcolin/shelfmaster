@@ -65,29 +65,42 @@ async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
   try {
-    return await itemModel.updateOne(
-      { _id: id },
-      {
-        $set: {
-          name: item.name,
-          food_type: item.food_type,
-        },
-        $inc: {
-          quantity: item.quantity,
-        },
-        $push: {
-          delta_quantity: {
-            $each: [item.quantity],
-            $slice: -30,
+    if (item.quantity && item.quantity != 0) {
+      return await itemModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            name: item.name,
+            food_type: item.food_type,
           },
-          dates_modified: {
-            $each: [new Date()],
-            $slice: -30,
+          $inc: {
+            quantity: item.quantity,
+          },
+          $push: {
+            delta_quantity: {
+              $each: [item.quantity],
+              $slice: -30,
+            },
+            dates_modified: {
+              $each: [new Date()],
+              $slice: -30,
+            },
           },
         },
-      },
-      { upsert: true, runValidators: true },
-    );
+        { upsert: true, runValidators: true },
+      );
+    } else {
+      return await itemModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            name: item.name,
+            food_type: item.food_type,
+          },
+        },
+        { upsert: true, runValidators: true },
+      );
+    }
   } catch (error) {
     console.log(error);
     return undefined;

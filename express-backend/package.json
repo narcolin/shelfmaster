@@ -71,7 +71,7 @@
     "vary": "^1.1.2"
   },
   "scripts": {
-    "coverage": "jest --collectCoverage --forceExit --passWithNoTests",
+    "coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --collectCoverage --forceExit",
     "test": "prettier --check . && cross-env NODE_OPTIONS=--experimental-vm-modules jest --forceExit --detectOpenHandles",
     "dev": "nodemon backend.js",
     "start": "node backend.js",

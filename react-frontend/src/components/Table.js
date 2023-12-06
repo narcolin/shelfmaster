@@ -59,9 +59,6 @@ async function updateItem(id, item) {
 }
 
 async function addItem(inventory, item) {
-  console.log("Adding");
-  console.log(inventory);
-  console.log(item);
   try {
     const response = await axios.patch(
       `http://localhost:8000/inventories/${inventory}`,
@@ -73,14 +70,17 @@ async function addItem(inventory, item) {
   }
 }
 
-// async function removeItem(id) {
-//   try {
-//     const response = await axios.get(`http://localhost:8000/users/${id}`);
-//     return response.data;
-//   } catch (error) {
-//     return null;
-//   }
-// }
+async function removeItem(inventory, item) {
+  try {
+    const response = await axios.patch(
+      `http://localhost:8000/inventories/${inventory}/remove`,
+      { data: item },
+    );
+    return response.data;
+  } catch (error) {
+    return null;
+  }
+}
 function EditToolbar(props) {
   const { setRows, setRowModesModel, inventory } = props;
 
@@ -140,6 +140,7 @@ export default function Table(props) {
 
   const handleDeleteClick = (id) => () => {
     setRows(rows.filter((row) => row.id !== id));
+    removeItem(inventory, id);
   };
 
   const handleCancelClick = (id) => () => {

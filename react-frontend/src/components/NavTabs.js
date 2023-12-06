@@ -7,7 +7,6 @@ import { useLocation } from "react-router-dom";
 const pages = [
   { label: "Home", href: "/" },
   { label: "Inventory", href: "/inventory" },
-  { label: "History", href: "/history" },
 ];
 
 function samePageLinkNavigation(event) {

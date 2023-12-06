@@ -4,7 +4,6 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Inventory from "./pages/Inventory";
 import Register from "./pages/Register";
-import History from "./pages/History";
 import Settings from "./pages/Settings";
 import About from "./pages/About";
 import axios from "axios";
@@ -25,7 +24,6 @@ function MyApp() {
     "/login": "Login - ShelfMaster",
     "/register": "Register - ShelfMaster",
     "/inventory": "Inventory - ShelfMaster",
-    "/history": "History - ShelfMaster",
     "/settings": "Settings - ShelfMaster",
     "/about": "About - ShelfMaster",
   };
@@ -146,7 +144,6 @@ function MyApp() {
               path="/inventory"
               element={<Inventory inventoryData={inventory} />}
             />
-            <Route path="/history" element={<History />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/about" element={<About />} />
           </>
@@ -156,7 +153,6 @@ function MyApp() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/inventory" element={<Navigate to="/login" />} />
-            <Route path="/history" element={<Navigate to="/login" />} />
             <Route path="/settings" element={<Navigate to="/login" />} />
             <Route path="/about" element={<Navigate to="/login" />} />
           </>

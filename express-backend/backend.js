@@ -81,6 +81,19 @@ app.patch("/inventories/:id", async (req, res) => {
   }
 });
 
+app.patch("/inventories/:id/remove", async (req, res) => {
+  console.log("test1");
+  console.log(req.body.data);
+  const id = req.params["id"];
+  const item_id = req.body.data;
+  const result = await inventoryServices.removeItemIdFromInventory(id, item_id);
+  if (result) {
+    res.status(200).send(result);
+  } else {
+    res.status(404).end();
+  }
+});
+
 app.delete("/inventories/:id", async (req, res) => {
   const id = req.params["id"]; //or req.params.id
   const result = await inventoryServices.deleteInvetoryById(id);

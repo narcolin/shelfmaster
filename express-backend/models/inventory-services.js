@@ -22,6 +22,22 @@ async function addInventory() {
 }
 
 async function addItemIdToInventory(id, item_id) {
+  try {
+    return await inventoryModel.updateOne(
+      { _id: id },
+      {
+        $push: {
+          items: item_id,
+        },
+      },
+    );
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function removeItemIdFromInventory(id, item_id) {
   console.log("testing");
   console.log(id);
   console.log(item_id);
@@ -29,7 +45,7 @@ async function addItemIdToInventory(id, item_id) {
     return await inventoryModel.updateOne(
       { _id: id },
       {
-        $push: {
+        $pull: {
           items: item_id,
         },
       },
@@ -57,6 +73,7 @@ export default {
   getItemsIds,
   addInventory,
   addItemIdToInventory,
+  removeItemIdFromInventory,
   deleteInvetoryById,
   findInventoryById,
 };

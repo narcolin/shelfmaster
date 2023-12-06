@@ -82,7 +82,7 @@ async function removeItem(inventory, item) {
   }
 }
 function EditToolbar(props) {
-  const { setRows, setRowModesModel, inventory } = props;
+  const { setRows, setRowModesModel, inventory, alertMessage } = props;
 
   const handleClick = () => {
     const id = uuidv4()
@@ -104,6 +104,14 @@ function EditToolbar(props) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      <div
+        className={`alert alert-danger d-flex align-items-center ${
+          alertMessage ? "visible-true" : "visible-false"
+        }`}
+      >
+        <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
+        <div>{alertMessage}</div>
+      </div>
     </GridToolbarContainer>
   );
 }
@@ -121,6 +129,8 @@ export default function Table(props) {
       };
     }),
   );
+
+  const [alertMessage, setAlertMessage] = React.useState(null);
 
   const filteredRows = Object.keys(filters).some((filter) => filters[filter])
     ? rows.filter((row) => filters[row.food_type])
@@ -180,6 +190,14 @@ export default function Table(props) {
   };
 
   const processRowUpdate = async (newRow) => {
+    setAlertMessage(null);
+    console.log(newRow);
+    console.log(Object.values(newRow).some((value) => value === ""));
+    if (Object.values(newRow).some((value) => value === "")) {
+      setAlertMessage("All columns must be set.");
+      console.error("Error updating item:", "All columns must be set.");
+      return;
+    }
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
@@ -316,7 +334,7 @@ export default function Table(props) {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel, inventory },
+          toolbar: { setRows, setRowModesModel, inventory, alertMessage },
         }}
       />
     </Box>

@@ -111,6 +111,7 @@ function EditToolbar(props) {
 export default function Table(props) {
   // const [rows, setRows] = React.useState(initialRows);
   const inventory = props.user.inventory;
+  const filters = props.filters;
   const [rows, setRows] = React.useState(
     props.inventoryData.map((item) => {
       return {
@@ -121,6 +122,10 @@ export default function Table(props) {
       };
     }),
   );
+
+  const filteredRows = Object.keys(filters).some((filter) => filters[filter])
+    ? rows.filter((row) => filters[row.food_type])
+    : rows;
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -282,7 +287,7 @@ export default function Table(props) {
       }}
     >
       <DataGrid
-        rows={rows}
+        rows={filteredRows}
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}

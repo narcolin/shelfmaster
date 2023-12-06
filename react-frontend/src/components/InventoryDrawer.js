@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -95,18 +95,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function InventoryDrawer() {
+export default function InventoryDrawer(props) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [filters, setFilters] = useState({
-    Grains: false,
-    Fruits: false,
-    Vegetables: false,
-    Proteins: false,
-    Dairy: false,
-    Beverages: false,
-    Miscellaneous: false,
-  });
+  const filters = props.filters;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -125,11 +117,10 @@ export default function InventoryDrawer() {
   };
 
   function handleFilterToggle(text) {
-    setFilters((prevFilters) => ({
+    props.setFilters((prevFilters) => ({
       ...prevFilters,
       [text]: !prevFilters[text],
     }));
-    console.log(filters);
   }
 
   return (

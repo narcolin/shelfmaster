@@ -15,14 +15,19 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Link } from "react-router-dom";
 import AccountSettings from "./AccountSettings";
 import CheckIcon from "@mui/icons-material/Check";
 import { Tooltip } from "@mui/material";
 import logo from "../images/logo.png";
 import Recipes from "../pages/Recipes.js";
+import GrainsIcon from "../images/grains-icon.png";
+import FruitsIcon from "../images/fruits-icon.png";
+import VegetablesIcon from "../images/vegetables-icon.png";
+import ProteinsIcon from "../images/proteins-icon.png";
+import DairyIcon from "../images/dairy-icon.png";
+import BeveragesIcon from "../images/beverages-icon.png";
+import MiscellaneousIcon from "../images/miscellaneous-icon.png";
 
 const drawerWidth = 240;
 
@@ -123,6 +128,63 @@ export default function InventoryDrawer(props) {
     }));
   }
 
+  const getIconForCategory = (category) => {
+    switch (category) {
+      case "Grains":
+        return (
+          <img
+            src={GrainsIcon}
+            alt="Grains"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+      case "Fruits":
+        return (
+          <img
+            src={FruitsIcon}
+            alt="Fruits"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+      case "Vegetables":
+        return (
+          <img
+            src={VegetablesIcon}
+            alt="Vegetables"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+      case "Proteins":
+        return (
+          <img
+            src={ProteinsIcon}
+            alt="Proteins"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+      case "Dairy":
+        return (
+          <img src={DairyIcon} alt="Dairy" style={{ width: 24, height: 24 }} />
+        );
+      case "Beverages":
+        return (
+          <img
+            src={BeveragesIcon}
+            alt="Beverages"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+      case "Miscellaneous":
+        return (
+          <img
+            src={MiscellaneousIcon}
+            alt="Miscellaneous"
+            style={{ width: 24, height: 24 }}
+          />
+        );
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -201,7 +263,7 @@ export default function InventoryDrawer(props) {
             "Dairy",
             "Beverages",
             "Miscellaneous",
-          ].map((text, index) => (
+          ].map((text) => (
             <ListItem key={text} disablePadding sx={{ display: "block" }}>
               <ListItemButton
                 sx={{
@@ -219,7 +281,7 @@ export default function InventoryDrawer(props) {
                     justifyContent: "center",
                   }}
                 >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  {getIconForCategory(text)}
                 </ListItemIcon>
                 <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
                 {open && filters[text] ? (

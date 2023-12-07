@@ -35,14 +35,8 @@ const Menu = ({ active }) => {
         <img className="logoimg" src={logo} width={250} height={37}></img>
         <NavTabs />
         <div className="dropdown" onClick={toggleDropdown}>
-          <button className="dropbtn">Settings &nbsp;&#x25BC;</button>
+          <button className="dropbtn">More &nbsp;&#x25BC;</button>
           <div className="dropdown-content" id="myDropdown">
-            <a
-              className={active === "Account Settings" ? "active" : ""}
-              href="/settings"
-            >
-              Account Settings
-            </a>
             <a className={active === "About" ? "active" : ""} href="/about">
               About
             </a>

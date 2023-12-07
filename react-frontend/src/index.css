@@ -1720,10 +1720,12 @@ input.input100 {
 
 /* containers (use 25% for four, and 50% for two, etc) */
 .column3 {
-  float: left;
+  float: center;
   flex: 33%;
   width: 33%;
   padding: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .column2 {
@@ -1849,6 +1851,9 @@ hr {
 
 .featimg {
   justify-content: center;
+  align-content: center;
+  position: static;
+  align-items: center;
 }
 
 h2 {

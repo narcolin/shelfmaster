@@ -1,5 +1,7 @@
 import Menu from "../components/Menu.js";
-import placeholder from "../images/placeholder.png";
+import sort from "../images/sort.jpeg";
+import tally from "../images/tally.png";
+import thumbs from "../images/thumbs.jpeg";
 
 function Home() {
   return (
@@ -36,50 +38,53 @@ function Home() {
         <br />
         <div className="container">
           <h2>
-            <em>Features</em>
+            <em>How to Use ShelfMaster</em>
           </h2>
           <br />
           <div className="row">
             <div className="column3">
               <p>
                 <strong>Inventory</strong> allows users to add, edit, or delete
-                items from their tally. Sort items by their food group to assist
-                your meal planning.
+                items from their tally. Simplify keeping track of what you have
+                in your pantry to avoid frustration at the grocery store!
               </p>
               <br />
               <img
                 className="featimg"
-                src={placeholder}
+                src={tally}
                 width={150}
                 height={150}
+                style={{ alignSelf: "center" }}
               ></img>
             </div>
             <div className="column3">
               <p>
-                <strong>History</strong> displays all items removed from the
-                inventory. Users can view statistics about what their diet has
-                consisted of over the past week.
+                <strong>Sort</strong> items in your inventory by food group to
+                narrow the results in your inventory. Easily find and determine
+                what you need for your next culinary creation!
               </p>
               <br />
               <img
                 className="featimg"
-                src={placeholder}
-                width={150}
-                height={150}
+                src={sort}
+                width={170}
+                height={140}
+                style={{ alignSelf: "center" }}
               ></img>
             </div>
             <div className="column3">
               <p>
-                <strong>Recipes</strong> populates with possible meals users can
-                make, based off the items in their inventory. Be creative in the
-                kitchen!
+                <strong>Provide feedback</strong> to the team about your
+                experience or learn about the purpose,background, and how
+                ShelfMaster was created in the &quot;More&quot; dropdown.
               </p>
               <br />
               <img
                 className="featimg"
-                src={placeholder}
+                src={thumbs}
                 width={150}
                 height={150}
+                style={{ alignSelf: "center" }}
               ></img>
             </div>
           </div>

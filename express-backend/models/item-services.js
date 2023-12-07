@@ -65,7 +65,7 @@ async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
   const savedItem = await findItemById(id);
-  if (typeof savedItem === "undefined") {
+  if (savedItem === null) {
     return addItem(item);
   } else if (savedItem.quantity && savedItem.quantity === item.quantity) {
     try {

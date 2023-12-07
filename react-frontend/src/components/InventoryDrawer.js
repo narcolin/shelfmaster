@@ -222,7 +222,6 @@ export default function InventoryDrawer(props) {
               <img className="logoimg" src={logo} width={250} height={37}></img>
             </Link>
           </div>
-          <Recipes />
           <Recipes selectedIngredients={selectedIngredients} />
         </Toolbar>
       </AppBar>

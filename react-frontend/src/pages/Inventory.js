@@ -13,10 +13,7 @@ function Inventory(props) {
     Miscellaneous: false,
   });
 
-  return (
-    <div>
-      <div className="container">
-        <InventoryDrawer filters={filters} setFilters={setFilters} />
+  <InventoryDrawer filters={filters} setFilters={setFilters} />;
   const [selectedIngredients, setSelectedIngredients] = React.useState([]);
 
   return (

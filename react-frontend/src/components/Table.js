@@ -85,7 +85,6 @@ async function removeItem(inventory, item) {
   }
 }
 function EditToolbar(props) {
-  const { setRows, setRowModesModel, inventory } = props;
   const { setRows, setRowModesModel, inventory, alertMessage } = props;
 
   const handleClick = () => {
@@ -122,7 +121,6 @@ function EditToolbar(props) {
 
 export default function Table(props) {
   // const [rows, setRows] = React.useState(initialRows);
-  const inventory = props.user.inventory;
   const inventory = props.user ? props.user.inventory : null;
   const filters = props.filters;
   const [rows, setRows] = React.useState(
@@ -232,13 +230,11 @@ export default function Table(props) {
   const columns = [
     { field: "name", headerName: "Food", width: 240, editable: true },
     {
-    {
       field: "selection",
       headerName: "",
       type: "checkbox",
       width: 50,
     },
-    { field: "name", headerName: "Food", width: 240, editable: true },
     {
       field: "quantity",
       headerName: "Quantity",
@@ -248,13 +244,6 @@ export default function Table(props) {
       headerAlign: "left",
       editable: true,
       flex: 1,
-    },
-    {
-      field: "DatePurchased",
-      headerName: "Date Purchased",
-      type: "date",
-      width: 180,
-      editable: true,
     },
     {
       field: "food_type",
@@ -373,7 +362,6 @@ export default function Table(props) {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel, inventory },
           toolbar: { setRows, setRowModesModel, inventory, alertMessage },
         }}
       />

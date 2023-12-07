@@ -108,7 +108,6 @@ function RecipeDetails({
   );
 }
 
-export default function FullScreenDialog() {
 export default function FullScreenDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [expandRecipe, setExpandRecipe] = React.useState(false);
@@ -116,8 +115,6 @@ export default function FullScreenDialog(props) {
   const [selectedRecommendation, setSelectedRecommendation] =
     React.useState(null);
   const [recObtained, setRecObtained] = React.useState(false);
-
-  const items = "apple, orange";
 
   const items = props.selectedIngredients;
 

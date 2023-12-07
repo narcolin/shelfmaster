@@ -56,7 +56,7 @@ async function removeItemIdFromInventory(id, item_id) {
   }
 }
 
-async function deleteInvetoryById(id) {
+async function deleteInventoryById(id) {
   try {
     return await inventoryModel.findByIdAndDelete(id);
   } catch (error) {
@@ -74,6 +74,6 @@ export default {
   addInventory,
   addItemIdToInventory,
   removeItemIdFromInventory,
-  deleteInvetoryById,
+  deleteInventoryById,
   findInventoryById,
 };

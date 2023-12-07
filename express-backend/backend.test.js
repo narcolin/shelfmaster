@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import userServices from "./models/user-services.js";
 import inventoryServices from "./models/inventory-services.js";
 import itemServices from "./models/item-services.js";
+import inventoryModel from "./models/inventory.js";
+import { expect, jest, test } from "@jest/globals";
 
 dotenv.config();
 
@@ -47,6 +49,13 @@ describe("Connection", () => {
         return id.toString();
       }),
     ).toEqual(itemIds);
+  });
+
+  test("get itemIds with no inventoryId", async () => {
+    const inventoryId = undefined;
+    const result = await inventoryServices.getItemsIds(inventoryId);
+
+    expect(Array.isArray(result)).toBe(true);
   });
 
   test("get items from itemIds", async () => {
@@ -114,6 +123,101 @@ describe("Connection", () => {
     expect(result2.dates_modified.length).toBe(30);
     expect(result2.delta_quantity).not.toContain(first_quantity);
     expect(result2.dates_modified).not.toContain(first_date);
+  });
+
+  test("addInventory: handle errors", async () => {
+    const mockedError = new Error("Mocked error");
+    jest.spyOn(inventoryModel.prototype, "save").mockImplementationOnce(() => {
+      throw mockedError;
+    });
+
+    const result = await inventoryServices.addInventory();
+    expect(result).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
+  test("addItemIdToInventory", async () => {
+    const savedInventory = await inventoryServices.addInventory();
+    const item = await itemServices.addItem({
+      name: "test",
+      quantity: "1",
+      food_type: "test",
+    });
+
+    const result = await inventoryServices.addItemIdToInventory(
+      savedInventory._id,
+      item._id,
+    );
+
+    expect(result.modifiedCount).toBe(1);
+  });
+
+  test("addItemIdToInventory: handle errors", async () => {
+    const mockedError = new Error("Mocked error");
+    jest.spyOn(inventoryModel, "updateOne").mockImplementationOnce(() => {
+      throw mockedError;
+    });
+
+    const result = await inventoryServices.addItemIdToInventory();
+    expect(result).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
+  test("removeItemIdFromInventory", async () => {
+    const savedInventory = await inventoryServices.addInventory();
+    const item = await itemServices.addItem({
+      name: "test",
+      quantity: "1",
+      food_type: "test",
+    });
+
+    await inventoryServices.addItemIdToInventory(savedInventory._id, item._id);
+    const result = await inventoryServices.removeItemIdFromInventory(
+      savedInventory._id,
+      item._id,
+    );
+
+    const updatedInventory = await inventoryModel.findById(savedInventory._id);
+    expect(result.modifiedCount).toBe(1);
+    expect(updatedInventory.items).not.toContainEqual(item._id);
+  });
+
+  test("removeItemIdFromInventory: handle errors", async () => {
+    const mockedError = new Error("Mocked error");
+    jest.spyOn(inventoryModel, "updateOne").mockImplementationOnce(() => {
+      throw mockedError;
+    });
+
+    const result = await inventoryServices.removeItemIdFromInventory();
+    expect(result).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
+  test("deleteInventoryById", async () => {
+    const savedInventory = await inventoryServices.addInventory();
+
+    const result = await inventoryServices.deleteInventoryById(
+      savedInventory._id,
+    );
+
+    expect(result._id).toEqual(savedInventory._id);
+  });
+
+  test("deleteInventoryById: handle errors", async () => {
+    const mockedError = new Error("Mocked error");
+    jest
+      .spyOn(inventoryModel, "findByIdAndDelete")
+      .mockImplementationOnce(() => {
+        throw mockedError;
+      });
+
+    const result = await inventoryServices.deleteInventoryById();
+    expect(result).toBeUndefined();
+
+    jest.restoreAllMocks();
   });
 
   afterAll(async () => {

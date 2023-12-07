@@ -64,54 +64,55 @@ async function addItem(item) {
 async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
-  console.log("testing");
-  console.log(id);
-  console.log(item);
-  console.log(await findItemById(id));
-  if (await findItemById(id)) {
+  const savedItem = await findItemById(id);
+  if (typeof savedItem === "undefined") {
+    return addItem(item);
+  } else if (savedItem.quantity && savedItem.quantity === item.quantity) {
     try {
-      if (item.quantity && item.quantity !== 0) {
-        return await itemModel.updateOne(
-          { _id: id },
-          {
-            $set: {
-              name: item.name,
-              food_type: item.food_type,
-            },
-            $inc: {
-              quantity: item.quantity,
-            },
-            $push: {
-              delta_quantity: {
-                $each: [item.quantity],
-                $slice: -30,
-              },
-              dates_modified: {
-                $each: [new Date()],
-                $slice: -30,
-              },
-            },
+      return await itemModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            name: item.name,
+            food_type: item.food_type,
           },
-          { upsert: true, runValidators: true },
-        );
-      } else {
-        return await itemModel.updateOne(
-          { _id: id },
-          {
-            $set: {
-              name: item.name,
-              food_type: item.food_type,
-            },
-          },
-          { upsert: true, runValidators: true },
-        );
-      }
+        },
+        { upsert: true, runValidators: true },
+      );
     } catch (error) {
       console.log(error);
       return undefined;
     }
-  } else {
-    addItem(item);
+  } else if (savedItem.quantity) {
+    const delta = item.quantity - savedItem.quantity;
+    try {
+      return await itemModel.updateOne(
+        { _id: id },
+        {
+          $set: {
+            name: item.name,
+            food_type: item.food_type,
+          },
+          $inc: {
+            quantity: delta,
+          },
+          $push: {
+            delta_quantity: {
+              $each: [delta],
+              $slice: -30,
+            },
+            dates_modified: {
+              $each: [new Date()],
+              $slice: -30,
+            },
+          },
+        },
+        { upsert: true, runValidators: true },
+      );
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
   }
 }
 

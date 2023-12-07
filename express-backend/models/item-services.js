@@ -52,7 +52,6 @@ async function deleteItemById(id) {
 async function addItem(item) {
   try {
     const itemToAdd = new itemModel(item);
-    console.log(itemToAdd);
     const savedItem = itemToAdd.save();
     return savedItem;
   } catch (error) {
@@ -64,8 +63,11 @@ async function addItem(item) {
 async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
+  console.log("id");
+  console.log(id);
   const savedItem = await findItemById(id);
-  if (savedItem === null) {
+  if (savedItem === null || savedItem === undefined) {
+    console.log(savedItem);
     return addItem(item);
   } else if (savedItem.quantity && savedItem.quantity === item.quantity) {
     try {
@@ -122,6 +124,7 @@ export default {
   getItems,
   getItem,
   findItemById,
+  findItemsById,
   deleteItemById,
   addItem,
   updateItemById,

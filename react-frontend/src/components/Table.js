@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
@@ -145,6 +148,16 @@ export default function Table(props) {
   ]);
 
   const [selectedRows, setSelectedRows] = React.useState([]);
+  const [expandedRows, setExpandedRows] = React.useState([]);
+
+  const handleExpandRow = (id) => (event) => {
+    event.stopPropagation();
+    setExpandedRows((prevExpandedRows) =>
+      prevExpandedRows.includes(id)
+        ? prevExpandedRows.filter((rowId) => rowId !== id)
+        : [...prevExpandedRows, id],
+    );
+  };
 
   const handleSelectionModelChange = (selectionModel) => {
     const selectedIngredients = selectionModel.map((selectedId) => {
@@ -298,6 +311,20 @@ export default function Table(props) {
           />,
         ];
       },
+    },
+    {
+      field: "expand",
+      headerName: "",
+      width: 50,
+      renderCell: ({ id }) => (
+        <IconButton size="small" onClick={handleExpandRow(id)}>
+          {expandedRows.includes(id) ? (
+            <KeyboardArrowUpIcon />
+          ) : (
+            <KeyboardArrowDownIcon />
+          )}
+        </IconButton>
+      ),
     },
   ];
 

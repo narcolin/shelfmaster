@@ -268,7 +268,7 @@ export default function Table(props) {
     {
       field: "food_type",
       headerName: "Food Group",
-      width: 220,
+      width: 200,
       editable: true,
       type: "singleSelect",
       valueOptions: [
@@ -286,7 +286,7 @@ export default function Table(props) {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 90,
       cellClassName: "actions",
       flex: 1,
       getActions: ({ id }) => {
@@ -336,7 +336,8 @@ export default function Table(props) {
     {
       field: "expand",
       headerName: "Logs",
-      width: 50,
+      width: 60,
+      type: "actions",
       renderCell: ({ id }) => (
         <IconButton size="small" onClick={handleExpandRow(id)}>
           <AddIcon />

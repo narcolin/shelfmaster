@@ -113,6 +113,8 @@ async function updateItemById(id, item) {
       console.log(error);
       return undefined;
     }
+  } else {
+    addItem(item);
   }
 }
 

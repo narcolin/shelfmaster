@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/material/IconButton";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
@@ -83,6 +86,7 @@ async function removeItem(inventory, item) {
 }
 function EditToolbar(props) {
   const { setRows, setRowModesModel, inventory } = props;
+  const { setRows, setRowModesModel, inventory, alertMessage } = props;
 
   const handleClick = () => {
     const id = uuidv4()
@@ -104,6 +108,14 @@ function EditToolbar(props) {
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         Add record
       </Button>
+      <div
+        className={`alert alert-danger d-flex align-items-center ${
+          alertMessage ? "visible-true" : "visible-false"
+        }`}
+      >
+        <i className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" />
+        <div>{alertMessage}</div>
+      </div>
     </GridToolbarContainer>
   );
 }
@@ -111,6 +123,7 @@ function EditToolbar(props) {
 export default function Table(props) {
   // const [rows, setRows] = React.useState(initialRows);
   const inventory = props.user.inventory;
+  const inventory = props.user ? props.user.inventory : null;
   const filters = props.filters;
   const [rows, setRows] = React.useState(
     props.inventoryData.map((item) => {
@@ -123,16 +136,40 @@ export default function Table(props) {
     }),
   );
 
+  const [alertMessage, setAlertMessage] = React.useState(null);
+
   const filteredRows = Object.keys(filters).some((filter) => filters[filter])
     ? rows.filter((row) => filters[row.food_type])
     : rows;
 
   const [rowModesModel, setRowModesModel] = React.useState({});
 
+  const { setSelectedIngredients } = props;
+
   const [sortModel, setSortModel] = React.useState([
     { field: "name", sort: "asc" },
   ]);
 
+  const [selectedRows, setSelectedRows] = React.useState([]);
+  const [expandedRows, setExpandedRows] = React.useState([]);
+
+  const handleExpandRow = (id) => (event) => {
+    event.stopPropagation();
+    setExpandedRows((prevExpandedRows) =>
+      prevExpandedRows.includes(id)
+        ? prevExpandedRows.filter((rowId) => rowId !== id)
+        : [...prevExpandedRows, id],
+    );
+  };
+
+  const handleSelectionModelChange = (selectionModel) => {
+    const selectedIngredients = selectionModel.map((selectedId) => {
+      const selectedRow = rows.find((row) => row.id === selectedId);
+      return selectedRow ? selectedRow.name : "";
+    });
+    setSelectedIngredients(selectedIngredients);
+    setSelectedRows(selectionModel);
+  };
   const handleSortModelChange = (newSortModel) => {
     setSortModel(newSortModel);
   };
@@ -169,6 +206,14 @@ export default function Table(props) {
   };
 
   const processRowUpdate = async (newRow) => {
+    setAlertMessage(null);
+    console.log(newRow);
+    console.log(Object.values(newRow).some((value) => value === ""));
+    if (Object.values(newRow).some((value) => value === "")) {
+      setAlertMessage("All columns must be set.");
+      console.error("Error updating item:", "All columns must be set.");
+      return;
+    }
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
 
@@ -187,6 +232,14 @@ export default function Table(props) {
   const columns = [
     { field: "name", headerName: "Food", width: 240, editable: true },
     {
+    {
+      field: "selection",
+      headerName: "",
+      type: "checkbox",
+      width: 50,
+    },
+    { field: "name", headerName: "Food", width: 240, editable: true },
+    {
       field: "quantity",
       headerName: "Quantity",
       type: "number",
@@ -194,6 +247,7 @@ export default function Table(props) {
       align: "left",
       headerAlign: "left",
       editable: true,
+      flex: 1,
     },
     {
       field: "DatePurchased",
@@ -217,6 +271,7 @@ export default function Table(props) {
         "Beverages",
         "Miscellaneous",
       ],
+      flex: 1,
     },
     {
       field: "actions",
@@ -224,6 +279,7 @@ export default function Table(props) {
       headerName: "Actions",
       width: 100,
       cellClassName: "actions",
+      flex: 1,
       getActions: ({ id }) => {
         const isInEditMode = rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -268,6 +324,20 @@ export default function Table(props) {
         ];
       },
     },
+    {
+      field: "expand",
+      headerName: "",
+      width: 50,
+      renderCell: ({ id }) => (
+        <IconButton size="small" onClick={handleExpandRow(id)}>
+          {expandedRows.includes(id) ? (
+            <KeyboardArrowUpIcon />
+          ) : (
+            <KeyboardArrowDownIcon />
+          )}
+        </IconButton>
+      ),
+    },
   ];
 
   return (
@@ -296,11 +366,15 @@ export default function Table(props) {
         processRowUpdate={processRowUpdate}
         sortModel={sortModel}
         onSortModelChange={handleSortModelChange}
+        checkboxSelection
+        onRowSelectionModelChange={handleSelectionModelChange}
+        selectionModel={selectedRows}
         slots={{
           toolbar: EditToolbar,
         }}
         slotProps={{
           toolbar: { setRows, setRowModesModel, inventory },
+          toolbar: { setRows, setRowModesModel, inventory, alertMessage },
         }}
       />
     </Box>

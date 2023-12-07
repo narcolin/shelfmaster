@@ -60,8 +60,12 @@ function MyApp() {
     supabase.auth.onAuthStateChange((event, session) => {
       switch (event) {
         case "SIGNED_IN":
+          setAuthChecked(false);
           setToken(session.access_token);
           setUser(session.user);
+          setTimeout(() => {
+            setAuthChecked(true);
+          }, 1000);
           // adds user to database if not already in (for social logins)
           if (session.provider_token && !dbChecked) {
             (async () => {
@@ -74,9 +78,13 @@ function MyApp() {
           dbChecked = true;
           break;
         case "SIGNED_OUT":
+          setAuthChecked(false);
           setToken(null);
           setUser(null);
           dbChecked = false;
+          setTimeout(() => {
+            setAuthChecked(true);
+          }, 1000);
           break;
         default:
           setToken(null);

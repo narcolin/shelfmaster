@@ -109,6 +109,7 @@ function RecipeDetails({
 }
 
 export default function FullScreenDialog() {
+export default function FullScreenDialog(props) {
   const [open, setOpen] = React.useState(false);
   const [expandRecipe, setExpandRecipe] = React.useState(false);
   const [recommendations, setRecommendations] = React.useState([]);
@@ -118,11 +119,14 @@ export default function FullScreenDialog() {
 
   const items = "apple, orange";
 
+  const items = props.selectedIngredients;
+
   async function getRecommendations(items) {
+    console.log(items.join(", "));
     try {
       const response = await axios.post(
         `http://localhost:8000/recipes/recommend`,
-        { ingredients: items },
+        { ingredients: items.join(", ") },
       );
       console.log(response);
       return response.data;
@@ -135,6 +139,7 @@ export default function FullScreenDialog() {
   const handleClickOpen = async () => {
     setRecObtained(false);
     setOpen(true);
+    console.log(items);
     const response = await getRecommendations(items);
     console.log(response?.recommendations);
     if (response?.recommendations) {

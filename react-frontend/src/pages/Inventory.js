@@ -13,8 +13,9 @@ function Inventory(props) {
     Miscellaneous: false,
   });
 
-  <InventoryDrawer filters={filters} setFilters={setFilters} />;
   const [selectedIngredients, setSelectedIngredients] = React.useState([]);
+
+  const [alertMessage, setAlertMessage] = React.useState(null);
 
   return (
     <div>
@@ -23,6 +24,7 @@ function Inventory(props) {
           filters={filters}
           setFilters={setFilters}
           selectedIngredients={selectedIngredients}
+          setAlertMessage={setAlertMessage}
         />
         <Table
           inventoryData={props.inventoryData}
@@ -30,6 +32,8 @@ function Inventory(props) {
           filters={filters}
           selectedIngredients={selectedIngredients}
           setSelectedIngredients={setSelectedIngredients}
+          alertMessage={alertMessage}
+          setAlertMessage={setAlertMessage}
         />
       </div>
     </div>

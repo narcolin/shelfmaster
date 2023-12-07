@@ -134,7 +134,7 @@ export default function Table(props) {
     }),
   );
 
-  const [alertMessage, setAlertMessage] = React.useState(null);
+  const { alertMessage, setAlertMessage } = props;
 
   const filteredRows = Object.keys(filters).some((filter) => filters[filter])
     ? rows.filter((row) => filters[row.food_type])
@@ -167,6 +167,7 @@ export default function Table(props) {
     });
     setSelectedIngredients(selectedIngredients);
     setSelectedRows(selectionModel);
+    setAlertMessage(null);
   };
   const handleSortModelChange = (newSortModel) => {
     setSortModel(newSortModel);

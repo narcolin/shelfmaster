@@ -222,7 +222,10 @@ export default function InventoryDrawer(props) {
               <img className="logoimg" src={logo} width={250} height={37}></img>
             </Link>
           </div>
-          <Recipes selectedIngredients={selectedIngredients} />
+          <Recipes
+            selectedIngredients={selectedIngredients}
+            setAlertMessage={props.setAlertMessage}
+          />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>

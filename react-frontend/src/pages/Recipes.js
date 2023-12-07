@@ -118,6 +118,8 @@ export default function FullScreenDialog(props) {
 
   const items = props.selectedIngredients;
 
+  const setAlertMessage = props.setAlertMessage;
+
   async function getRecommendations(items) {
     console.log(items.join(", "));
     try {
@@ -134,12 +136,21 @@ export default function FullScreenDialog(props) {
   }
 
   const handleClickOpen = async () => {
+    if (items.length === 0) {
+      setAlertMessage("At least one ingredient must be selected.");
+      return;
+    }
     setRecObtained(false);
     setOpen(true);
     console.log(items);
     const response = await getRecommendations(items);
     console.log(response?.recommendations);
     if (response?.recommendations) {
+      if (response.recommendations.count === 0) {
+        setOpen(false);
+        setAlertMessage("No recommendations found.");
+        return;
+      }
       setRecommendations(
         response.recommendations.results.map((item) => ({
           image: item.thumbnail_url,
@@ -155,6 +166,8 @@ export default function FullScreenDialog(props) {
       }, 1000);
       console.log(recommendations);
     } else {
+      setOpen(false);
+      setAlertMessage("No recommendations found.");
       console.error("No recommendations.");
     }
   };

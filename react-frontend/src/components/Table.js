@@ -1,14 +1,17 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 
@@ -46,6 +49,18 @@ import // randomCreatedDate,
 //     role: "",
 //   },
 // ];
+
+async function getItems(inventory_id, { setInventoryData }) {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/items?inventoryId=${inventory_id}`,
+    );
+    setInventoryData(response.data.inventory);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
 
 async function updateItem(id, item) {
   console.log(id);
@@ -134,6 +149,9 @@ export default function Table(props) {
     }),
   );
 
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+  const [expandedRowData, setExpandedRowData] = React.useState(null);
+
   const { alertMessage, setAlertMessage } = props;
 
   const filteredRows = Object.keys(filters).some((filter) => filters[filter])
@@ -149,15 +167,16 @@ export default function Table(props) {
   ]);
 
   const [selectedRows, setSelectedRows] = React.useState([]);
-  const [expandedRows, setExpandedRows] = React.useState([]);
 
   const handleExpandRow = (id) => (event) => {
     event.stopPropagation();
-    setExpandedRows((prevExpandedRows) =>
-      prevExpandedRows.includes(id)
-        ? prevExpandedRows.filter((rowId) => rowId !== id)
-        : [...prevExpandedRows, id],
-    );
+    const expandedRow = props.inventoryData.find((item) => item._id === id);
+    setExpandedRowData(expandedRow);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setDialogOpen(false);
   };
 
   const handleSelectionModelChange = (selectionModel) => {
@@ -215,9 +234,9 @@ export default function Table(props) {
     }
     const updatedRow = { ...newRow, isNew: false };
     setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-
     try {
       await updateItem(updatedRow.id, updatedRow);
+      await getItems(inventory, { setInventoryData: props.setInventoryData });
     } catch (error) {
       console.error("Error updating item:", error);
     }
@@ -316,15 +335,11 @@ export default function Table(props) {
     },
     {
       field: "expand",
-      headerName: "",
+      headerName: "Logs",
       width: 50,
       renderCell: ({ id }) => (
         <IconButton size="small" onClick={handleExpandRow(id)}>
-          {expandedRows.includes(id) ? (
-            <KeyboardArrowUpIcon />
-          ) : (
-            <KeyboardArrowDownIcon />
-          )}
+          <AddIcon />
         </IconButton>
       ),
     },
@@ -366,6 +381,34 @@ export default function Table(props) {
           toolbar: { setRows, setRowModesModel, inventory, alertMessage },
         }}
       />
+      <Dialog open={dialogOpen} onClose={handleDialogClose} scroll="paper">
+        <DialogTitle id="expanded-row-dialog-title">Logs</DialogTitle>
+        <DialogContent dividers>
+          <DialogContentText id="expanded-row-dialog-description">
+            {expandedRowData && (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Delta Quantity</th>
+                    <th>Date Modified</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {expandedRowData.dates_modified.map((date, index) => (
+                    <tr key={date}>
+                      <td>{expandedRowData.delta_quantity[index]}</td>
+                      <td>{new Date(date).toLocaleString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDialogClose}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

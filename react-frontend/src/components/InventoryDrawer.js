@@ -232,9 +232,6 @@ export default function InventoryDrawer(props) {
         <DrawerHeader sx={{ minHeight: "84px !important" }}>
           {open ? (
             <div>
-              <Link to="/">
-                <a>Return?</a>
-              </Link>
               <Tooltip title="Collapse">
                 <IconButton
                   onClick={handleDrawerClose}

@@ -28,6 +28,7 @@ function Inventory(props) {
         />
         <Table
           inventoryData={props.inventoryData}
+          setInventoryData={props.setInventoryData}
           user={props.user}
           filters={filters}
           selectedIngredients={selectedIngredients}

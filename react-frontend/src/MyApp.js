@@ -151,7 +151,11 @@ function MyApp() {
             <Route
               path="/inventory"
               element={
-                <Inventory inventoryData={inventory} user={shelf_user} />
+                <Inventory
+                  inventoryData={inventory}
+                  setInventoryData={setInventory}
+                  user={shelf_user}
+                />
               }
             />
             <Route path="/settings" element={<Settings />} />

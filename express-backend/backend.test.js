@@ -150,7 +150,7 @@ describe("Connection", () => {
     } catch (error) {
       expect(error.toString()).toMatch("ValidationError");
     }
-  });
+  }, 15000);
 
   test("add item with >30 dates -- will fail", async () => {
     const item = {

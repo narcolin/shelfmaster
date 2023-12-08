@@ -52,17 +52,20 @@ async function findUserById(id) {
 }
 
 async function addUser(user) {
+  const newInventory = await inventoryServices.addInventory();
   try {
-    const userToAdd = new userModel(user);
-    const newInventory = await inventoryServices.addInventory();
     if (newInventory === false) {
       throw new Error("New inventory couldn't be added.");
     }
+    const userToAdd = new userModel(user);
     userToAdd.inventory = newInventory._id;
     const savedUser = await userToAdd.save();
     return savedUser;
   } catch (error) {
     console.log(error);
+    if (error.message !== "New inventory couldn't be added.") {
+      await inventoryServices.deleteInventoryById(newInventory._id);
+    }
     return false;
   }
 }

@@ -38,11 +38,7 @@ describe("Connection", () => {
 
   test("get itemIds from inventoryId", async () => {
     const inventoryId = "65569d94cd78afe344355f15";
-    const itemIds = [
-      "65569deacd78afe344355f1c",
-      "65569deacd78afe344355f1c",
-      "6556a76bcd78afe344355f31",
-    ];
+    const itemIds = ["65569deacd78afe344355f1c", "6556a76bcd78afe344355f31"];
     const result = await inventoryServices.getItemsIds(inventoryId);
 
     expect(
@@ -60,11 +56,7 @@ describe("Connection", () => {
   });
 
   test("get items from itemIds", async () => {
-    const itemIds = [
-      "65569deacd78afe344355f1c",
-      "65569deacd78afe344355f1c",
-      "6556a76bcd78afe344355f31",
-    ];
+    const itemIds = ["65569deacd78afe344355f1c", "6556a76bcd78afe344355f31"];
     const result = await itemServices.getItems(itemIds);
 
     expect(result[0].name).toBe("cake");
@@ -93,7 +85,6 @@ describe("Connection", () => {
     try {
       await itemServices.addItem(item);
     } catch (error) {
-      console.log(error);
       expect(error.toString()).toMatch("ValidationError");
     }
   });
@@ -104,14 +95,15 @@ describe("Connection", () => {
       quantity: 0,
     };
     const savedItem = await itemServices.addItem(item);
-    for (let i = 0; i < 30; i++) {
-      item.quantity += 1;
+    for (let i = 1; i < 31; i++) {
+      item.quantity += i;
       await itemServices.updateItemById(savedItem["_id"], item);
     }
     const result = await itemServices.getItem(savedItem["_id"]);
     const first_date = result.dates_modified[0];
     const first_quantity = result.delta_quantity[0];
 
+    item.quantity += 31;
     await itemServices.updateItemById(savedItem["_id"], item);
     const result2 = await itemServices.getItem(savedItem["_id"]);
     await itemServices.deleteItemById(savedItem["_id"]);
@@ -119,11 +111,12 @@ describe("Connection", () => {
     expect(result.quantity).toBe(465);
     expect(result.delta_quantity.length).toBe(30);
     expect(result.dates_modified.length).toBe(30);
-    expect(result2.quantity).toBe(495);
+    expect(result2.quantity).toBe(496);
     expect(result2.delta_quantity.length).toBe(30);
     expect(result2.dates_modified.length).toBe(30);
     expect(result2.delta_quantity).not.toContain(first_quantity);
     expect(result2.dates_modified).not.toContain(first_date);
+    expect(result2.delta_quantity[29]).toBe(31);
   });
 
   test("addInventory: handle errors", async () => {
@@ -141,7 +134,7 @@ describe("Connection", () => {
   test("addItemIdToInventory", async () => {
     const savedInventory = await inventoryServices.addInventory();
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test addItemIdToInventory",
       quantity: 1,
       food_type: "test",
     });
@@ -150,6 +143,9 @@ describe("Connection", () => {
       savedInventory._id,
       item._id,
     );
+
+    await inventoryServices.deleteInventoryById(savedInventory._id);
+    await itemServices.deleteItemById(item._id);
 
     expect(result.modifiedCount).toBe(1);
   });
@@ -169,7 +165,7 @@ describe("Connection", () => {
   test("removeItemIdFromInventory", async () => {
     const savedInventory = await inventoryServices.addInventory();
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test removeItemIdFromInventory",
       quantity: 1,
       food_type: "test",
     });
@@ -181,6 +177,10 @@ describe("Connection", () => {
     );
 
     const updatedInventory = await inventoryModel.findById(savedInventory._id);
+
+    await inventoryServices.deleteInventoryById(savedInventory._id);
+    await itemServices.deleteItemById(item._id);
+
     expect(result.modifiedCount).toBe(1);
     expect(updatedInventory.items).not.toContainEqual(item._id);
   });
@@ -288,31 +288,29 @@ describe("Connection", () => {
   });
 
   test("updateItemById new item", async () => {
-    const savedInventory = await inventoryServices.addInventory();
     const item = {
-      name: "test",
+      name: "test updateItemById new item",
       quantity: 1,
       food_type: "test",
     };
 
-    // using inventory id in place of item id cause it generates a unique id
-    await itemServices.updateItemById(savedInventory._id, item);
+    const result = await itemServices.updateItemById(null, item);
 
-    const result = await inventoryServices.findInventoryById(
-      savedInventory._id,
-    );
+    await itemServices.deleteItemById(result._id);
 
-    expect(result.item).toEqual(item._id);
+    expect(result.name).toEqual(item.name.toLowerCase());
+    expect(result.quantity).toEqual(item.quantity);
+    expect(result.food_type).toEqual(item.food_type);
   });
 
   test("updateItemById existing item with same quantity", async () => {
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test updateItemId existing same quantity",
       quantity: 1,
       food_type: "test",
     });
     const updatedItem = {
-      name: "test",
+      name: "test updateItemId existing same quantity",
       quantity: 1,
       food_type: "test2",
     };
@@ -321,8 +319,12 @@ describe("Connection", () => {
 
     const result = await itemServices.findItemById(item._id);
 
+    await itemServices.deleteItemById(item._id);
+
     expect(result.quantity).toEqual(1);
     expect(result.food_type).toEqual("test2");
+    expect(result.delta_quantity).toEqual([]);
+    expect(result.dates_modified).toEqual([]);
   });
 
   test("updateItemById same quantity: handle errors", async () => {
@@ -332,33 +334,33 @@ describe("Connection", () => {
     });
 
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test updateItemById same quantity error",
       quantity: 1,
       food_type: "test",
     });
     const updatedItem = {
-      name: "test",
+      name: "test updateItemById same quantity error",
       quantity: 1,
       food_type: "test2",
     };
 
-    await itemServices.updateItemById(item._id, updatedItem);
+    const result = await itemServices.updateItemById(item._id, updatedItem);
 
-    const result = await itemServices.findItemById(item._id);
+    await itemServices.deleteItemById(item._id);
 
-    expect(result).toBeDefined();
+    expect(result).toBeUndefined();
 
     jest.restoreAllMocks();
   });
 
   test("updateItemById existing item with new quantity", async () => {
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test updateItemById existing item with new quantity",
       quantity: 1,
       food_type: "test",
     });
     const updatedItem = {
-      name: "test",
+      name: "test updateItemById existing item with new quantity",
       quantity: 3,
       food_type: "test",
     };
@@ -367,7 +369,11 @@ describe("Connection", () => {
 
     const result = await itemServices.findItemById(item._id);
 
+    await itemServices.deleteItemById(item._id);
+
     expect(result.quantity).toEqual(3);
+    expect(result.delta_quantity).toEqual([2]);
+    expect(result.dates_modified.length).toEqual(1);
   });
 
   test("updateItemById new quantity: handle errors", async () => {
@@ -377,21 +383,21 @@ describe("Connection", () => {
     });
 
     const item = await itemServices.addItem({
-      name: "test",
+      name: "test updateItemById new quantity: handle errors",
       quantity: 1,
       food_type: "test",
     });
     const updatedItem = {
-      name: "test",
+      name: "test updateItemById new quantity: handle errors",
       quantity: 3,
       food_type: "test",
     };
 
-    await itemServices.updateItemById(item._id, updatedItem);
+    const result = await itemServices.updateItemById(item._id, updatedItem);
 
-    const result = await itemServices.findItemById(item._id);
+    await itemServices.deleteItemById(item._id);
 
-    expect(result).toBeDefined();
+    expect(result).toBeUndefined();
 
     jest.restoreAllMocks();
   });

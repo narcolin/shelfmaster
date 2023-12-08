@@ -63,14 +63,12 @@ async function addItem(item) {
 async function updateItemById(id, item) {
   // Update quantity by increasing to it. Tracking stats added, ensure
   // tracking keeps the 30 latest events
-  console.log("id");
-  console.log(id);
   const savedItem = await findItemById(id);
   if (savedItem === null || savedItem === undefined) {
-    console.log(savedItem);
     return addItem(item);
-  } else if (savedItem.quantity && savedItem.quantity === item.quantity) {
-    try {
+  }
+  try {
+    if (savedItem.quantity === item.quantity) {
       return await itemModel.updateOne(
         { _id: id },
         {
@@ -81,13 +79,8 @@ async function updateItemById(id, item) {
         },
         { upsert: true, runValidators: true },
       );
-    } catch (error) {
-      console.log(error);
-      return undefined;
-    }
-  } else if (savedItem.quantity) {
-    const delta = item.quantity - savedItem.quantity;
-    try {
+    } else if (savedItem.quantity !== undefined) {
+      const delta = item.quantity - savedItem.quantity;
       return await itemModel.updateOne(
         { _id: id },
         {
@@ -111,13 +104,12 @@ async function updateItemById(id, item) {
         },
         { upsert: true, runValidators: true },
       );
-    } catch (error) {
-      console.log(error);
-      return undefined;
     }
-  } else {
-    addItem(item);
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
+  return undefined;
 }
 
 export default {

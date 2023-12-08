@@ -1,7 +1,7 @@
 <h1 align="center">
   <a href="https://github.com/narcolin/shelfmaster">
     <!-- Please provide path to your logo here -->
-    <img src="react-frontend/src/images/logo.png" alt="Logo" width="800" height="100">
+    <img src="docs/logo.png" alt="Logo" width="800" height="100">
   </a>
 </h1>
 

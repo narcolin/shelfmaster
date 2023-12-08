@@ -1,4 +1,9 @@
-# Shelfmaster
+<h1 align="center">
+  <a href="https://github.com/narcolin/shelfmaster">
+    <!-- Please provide path to your logo here -->
+    <img src="react-frontend/src/images/logo.png" alt="Logo" width="800" height="100">
+  </a>
+</h1>
 
 [![backendCI](https://github.com/narcolin/shelfmaster/actions/workflows/node.js.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/node.js.yml)
 [![frontendCI](https://github.com/narcolin/shelfmaster/actions/workflows/react-frontend-ci.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/react-frontend-ci.yml)

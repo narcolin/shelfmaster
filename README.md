@@ -5,6 +5,9 @@
 
 [![Build and deploy Node.js app to Azure Web App - shelfmaster-api](https://github.com/narcolin/shelfmaster/actions/workflows/main_shelfmaster-api.yml/badge.svg)](https://github.com/narcolin/shelfmaster/actions/workflows/main_shelfmaster-api.yml)
 
+## Product Vision
+The Shelf Master is for anyone and everyone who needs to keep track of their meals and make sure they have enough food to last. The Shelf Master is an inventory application that allows users to easily add or remove items from their tally. Unlike the other pantry tracker apps, our product creatively formats the items into food group categories (ie: grains, proteins, vegetables, etc.).
+
 ## VS Code Linter/Code Styler Checker Setup
 ### Prerequisites 
 

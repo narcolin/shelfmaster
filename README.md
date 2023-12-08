@@ -10,6 +10,60 @@ The Shelf Master is for anyone and everyone who needs to keep track of their mea
 
 ## UI Prototype
 [Figma](https://www.figma.com/file/XXGMydp5IymbYieMKrbkJC/shelfmaster?type=design&node-id=0%3A1&mode=design&t=YxGTjOgWrYnnRygF-1) (Last Updated 10-27-2023)
+
+## Code Setup
+Make sure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/get-npm)
+
+### React Frontend
+
+1. Open a terminal and navigate to the `react-frontend` directory.
+
+    ```bash
+    cd ./react-frontend
+    ```
+
+2. Install dependencies.
+
+    ```bash
+    npm install
+    ```
+
+3. Start the React server.
+
+    ```bash
+    npm start
+    ```
+
+   The React app will be accessible at `http://localhost:3000`.
+
+### Express Backend
+
+1. Open a new terminal window and navigate to the `express-backend` directory.
+
+    ```bash
+    cd ./express-backend
+    ```
+
+2. Install dependencies.
+
+    ```bash
+    npm install
+    ```
+
+3. Start the Express server.
+
+    ```bash
+    npm start
+    ```
+
+   The Express app will be accessible at `http://localhost:8000`.
+
+Once both the React frontend and Express backend servers are running, you can access the application in your web browser.
+- Frontend: [http://localhost:3000](http://localhost:3000)
+- Backend: [http://localhost:8000](http://localhost:8000)
+
 ## VS Code Linter/Code Styler Checker Setup
 ### Prerequisites 
 

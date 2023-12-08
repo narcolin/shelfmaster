@@ -1,32 +1,5 @@
-import mongoose from "mongoose";
 import userModel from "./user.js";
 import inventoryServices from "./inventory-services.js";
-
-import dotenv from "dotenv";
-
-dotenv.config();
-
-// uncomment the following line to view mongoose debug messages
-mongoose.set("debug", true);
-// console.log(">>mongo cluster: " + process.env.MONGO_CLUSTER);
-mongoose
-  .connect(
-    "mongodb+srv://" +
-      process.env.MONGO_USER +
-      ":" +
-      process.env.MONGO_PWD +
-      "@" +
-      process.env.MONGO_CLUSTER +
-      "/" +
-      process.env.MONGO_DB +
-      "?retryWrites=true&w=majority",
-    // "mongodb://localhost:27017/users",
-    {
-      useNewUrlParser: true, //useFindAndModify: false,
-      useUnifiedTopology: true,
-    },
-  )
-  .catch((error) => console.log(error));
 
 async function getUsers(id, name) {
   let result;
@@ -83,10 +56,6 @@ async function findUserByName(name) {
   return await userModel.find({ name: name });
 }
 
-async function findUserByJob(job) {
-  return await userModel.find({ job: job });
-}
-
 async function findUserByIdAndName(id, name) {
   return await userModel.find({ _id: id, name: name });
 }
@@ -101,7 +70,6 @@ export default {
   getUsers,
   findUserById,
   findUserByName,
-  findUserByJob,
   deleteUserById,
 };
 

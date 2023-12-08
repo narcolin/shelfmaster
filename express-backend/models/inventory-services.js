@@ -4,7 +4,7 @@ async function getItemsIds(id) {
   let result;
   if (id === undefined) {
     result = await inventoryModel.find();
-  } else if (id) {
+  } else if (id !== undefined) {
     result = await findInventoryById(id);
   }
   return result;

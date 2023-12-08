@@ -28,6 +28,50 @@ describe("Connection", () => {
     );
   });
 
+  test("getUsers", async () => {
+    const result = await userServices.getUsers(undefined, undefined);
+
+    expect(result.length).toBeGreaterThanOrEqual(1);
+  });
+
+  test("getUsers by name", async () => {
+    // Test fails if this user was somehow deleted from the database
+    const uid = "02b7d18f-06b0-426f-8a9b-5ddb3849355c";
+    const inventoryId = "65569d94cd78afe344355f15";
+    const result = await userServices.getUsers(undefined, "Test");
+
+    expect(result[0]._id.toString()).toBe(uid);
+    expect(result[0].inventory.toString()).toBe(inventoryId);
+  });
+
+  test("getUsers by id and name", async () => {
+    const uid = "02b7d18f-06b0-426f-8a9b-5ddb3849355c";
+    const name = "Test";
+    const inventoryId = "65569d94cd78afe344355f15";
+    const result = await userServices.getUsers(uid, name);
+
+    expect(result[0].inventory.toString()).toBe(inventoryId);
+  });
+
+  test("finduserById -- unknown id error", async () => {
+    const uid = "abc123abc";
+    const result = await userServices.findUserById(uid);
+
+    expect(result).toBeUndefined();
+  });
+
+  test("addUser -- inventory adding failure", async () => {
+    const mockedError = new Error("Mocked error");
+    jest.spyOn(inventoryModel.prototype, "save").mockImplementationOnce(() => {
+      throw mockedError;
+    });
+
+    const result = await userServices.addUser();
+    expect(result).toBeFalsy();
+
+    jest.restoreAllMocks();
+  });
+
   test("get inventoryId from userId", async () => {
     const uid = "02b7d18f-06b0-426f-8a9b-5ddb3849355c";
     const inventoryId = "65569d94cd78afe344355f15";
@@ -76,11 +120,66 @@ describe("Connection", () => {
     expect(result).toBeFalsy();
   });
 
+  test("add and delete user", async () => {
+    const user = {
+      _id: "c75d0d82-6b71-4725-b5fe-55a36c7178f1",
+    };
+    const result = await userServices.addUser(user);
+
+    await inventoryServices.deleteInventoryById(result.inventory);
+    await userServices.deleteUserById(result._id);
+
+    expect(result._id).toEqual(user._id);
+  });
+
+  test("delete user by id error", async () => {
+    const uuid = "fail me";
+    const result = await userServices.deleteUserById(uuid);
+
+    expect(result).toBeUndefined();
+  });
+
   test("add item negative quantity -- will fail", async () => {
     const item = {
       name: "test-item",
       quantity: -1,
     };
+
+    try {
+      await itemServices.addItem(item);
+    } catch (error) {
+      expect(error.toString()).toMatch("ValidationError");
+    }
+  });
+
+  test("add item with >30 dates -- will fail", async () => {
+    const item = {
+      name: "test-item",
+      quantity: 0,
+      dates_modified: [],
+    };
+
+    for (let i = 0; i < 31; i++) {
+      item.dates_modified.push(new Date());
+    }
+
+    try {
+      await itemServices.addItem(item);
+    } catch (error) {
+      expect(error.toString()).toMatch("ValidationError");
+    }
+  });
+
+  test("add item with >30 deltas -- will fail", async () => {
+    const item = {
+      name: "test-item",
+      quantity: 0,
+      delta_quantity: [],
+    };
+
+    for (let i = 0; i < 31; i++) {
+      item.delta_quantity.push(1);
+    }
 
     try {
       await itemServices.addItem(item);

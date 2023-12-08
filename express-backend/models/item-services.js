@@ -5,7 +5,7 @@ async function getItems(ids) {
   if (ids === undefined) {
     console.log("getItems provided with undefined id");
     result = null;
-  } else if (ids) {
+  } else if (ids !== undefined) {
     result = await findItemsById(ids);
   }
   return result;
@@ -16,7 +16,7 @@ async function getItem(id) {
   if (id === undefined) {
     console.log("getItem provided with undefined id");
     result = null;
-  } else if (id) {
+  } else if (id !== undefined) {
     result = await findItemById(id);
   }
   return result;
@@ -109,7 +109,6 @@ async function updateItemById(id, item) {
     console.log(error);
     return undefined;
   }
-  return undefined;
 }
 
 export default {

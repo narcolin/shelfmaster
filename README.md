@@ -8,6 +8,26 @@
 ## Product Vision
 The Shelf Master is for anyone and everyone who needs to keep track of their meals and make sure they have enough food to last. The Shelf Master is an inventory application that allows users to easily add or remove items from their tally. Unlike the other pantry tracker apps, our product creatively formats the items into food group categories (ie: grains, proteins, vegetables, etc.).
 
+## Code Coverage
+(Last ran 2023-12-08 15:37 UTC)
+```
+-----------------------|---------|----------|---------|---------|-------------------
+File                   | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+-----------------------|---------|----------|---------|---------|-------------------
+All files              |     100 |     87.5 |     100 |     100 |
+ inventory-services.js |     100 |       75 |     100 |     100 | 7
+ inventory.js          |     100 |      100 |     100 |     100 |
+ item-services.js      |     100 |    81.25 |     100 |     100 | 8,19,82
+ item.js               |     100 |      100 |     100 |     100 |
+ user-services.js      |     100 |       95 |     100 |     100 | 12
+ user.js               |     100 |      100 |     100 |     100 |
+-----------------------|---------|----------|---------|---------|-------------------
+Test Suites: 1 passed, 1 total
+Tests:       34 passed, 34 total
+Snapshots:   0 total
+Time:        5.546 s, estimated 6 s
+```
+
 ## UI Prototype
 [Figma](https://www.figma.com/file/XXGMydp5IymbYieMKrbkJC/shelfmaster?type=design&node-id=0%3A1&mode=design&t=YxGTjOgWrYnnRygF-1) (Last Updated 10-27-2023)
 

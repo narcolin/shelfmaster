@@ -1,10 +1,37 @@
 import express from "express";
 import cors from "cors";
+import mongoose from "mongoose";
 
 import userServices from "./models/user-services.js";
 import inventoryServices from "./models/inventory-services.js";
 import itemServices from "./models/item-services.js";
 import { router as recipe_router } from "./models/recipes.js";
+
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// uncomment the following line to view mongoose debug messages
+mongoose.set("debug", true);
+// console.log(">>mongo cluster: " + process.env.MONGO_CLUSTER);
+mongoose
+  .connect(
+    "mongodb+srv://" +
+      process.env.MONGO_USER +
+      ":" +
+      process.env.MONGO_PWD +
+      "@" +
+      process.env.MONGO_CLUSTER +
+      "/" +
+      process.env.MONGO_DB +
+      "?retryWrites=true&w=majority",
+    // "mongodb://localhost:27017/users",
+    {
+      useNewUrlParser: true, //useFindAndModify: false,
+      useUnifiedTopology: true,
+    },
+  )
+  .catch((error) => console.log(error));
 
 const app = express();
 const APP_VERSION = "1.0.0";
